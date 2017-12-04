@@ -1,12 +1,12 @@
 # Compiled class file
 *.class
+WatsonNLP/bin/.gitignore
 
 # Log file
 *.log
 
 # Keys
 Secret.java
-
 
 # BlueJ files
 *.ctxt
