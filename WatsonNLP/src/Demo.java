@@ -11,8 +11,7 @@ public class Demo {
 
 		NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
 				  NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
-				  "",
-				  "");
+				  Secret.username, Secret.password);
 
 		
 		String text = "IBM is an American multinational technology " +
