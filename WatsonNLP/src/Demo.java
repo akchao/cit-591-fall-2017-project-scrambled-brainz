@@ -16,12 +16,8 @@ public class Demo {
 		
 		NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
 				  NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
-<<<<<<< HEAD
 				  sec.getUsername(),
 				  sec.getPassword());
-=======
-				  Secret.username, Secret.password);
->>>>>>> 575966819db607d8b56e2ecf9df05a606e722909
 
 		
 		String text = "I think I am in love!";
