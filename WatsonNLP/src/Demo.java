@@ -11,13 +11,10 @@ public class Demo {
 	private static AnalysisResults response;
 
 	public Demo() {
-
-		Secret sec = new Secret();
 		
 		NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
 				  NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
-				  sec.getUsername(),
-				  sec.getPassword());
+				  Secret.username, Secret.password);
 
 		
 		String text = "I think I am in love!";
