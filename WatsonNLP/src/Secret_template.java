@@ -3,12 +3,12 @@
  * @author drawj
  *
  */
-public class Secret {
+public class Secret_template {
 
 	private String username;
 	private String password;
 		
-	public Secret() {
+	public Secret_template() {
 		username = "YOUR USERNAME";
 		password = "YOUR PASSWORD";
 	}

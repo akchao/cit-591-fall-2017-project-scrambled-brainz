@@ -5,22 +5,32 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Co
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.KeywordsOptions;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.MetadataOptions;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.MetadataResult;
 
 public class Demo {
 	
 	private static AnalysisResults response;
 
-	public Demo() {
+	
+	public static void main(String[] args) {
+		
+//	public Demo() {		
 		
 		NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
 				  NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
 				  Secret.username, Secret.password);
 
 		
-		String text = "I think I am in love!";
+		String url = "https://www.gutenberg.org/files/56105/56105-0.txt";
 		
-//		String url = "http://www.gutenberg.org/files/45609/45609-h/45609-h.htm";
+		String text = "This longest-established ebook project"
+				+ "releases books that entered the public domain,"
+				+ "and can be freely used in electronic format.";
+		
 
+				MetadataOptions metadata = new MetadataOptions();
+		
 				EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
 				  .emotion(true)
 				  .sentiment(true)
@@ -41,6 +51,7 @@ public class Demo {
 				  .entities(entitiesOptions)
 				  .concepts(concepts)
 				  .keywords(keywordsOptions)
+				  .metadata(metadata)
 				  .build();
 
 				AnalyzeOptions parameters = new AnalyzeOptions.Builder()
@@ -51,7 +62,7 @@ public class Demo {
 				response = service
 				  .analyze(parameters)
 				  .execute();
-//				System.out.println(response);
+				System.out.println(response);
 				
 	
 //		String language = response.getLanguage();
@@ -61,6 +72,10 @@ public class Demo {
 	
 	public String getLanguage() {
 		return response.getLanguage();
+	}
+	
+	public MetadataResult getMetadata() {
+		return response.getMetadata();
 	}
 	
 	
