@@ -31,31 +31,31 @@ public class Demo {
 
 				MetadataOptions metadata = new MetadataOptions();
 		
-				EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
-				  .emotion(true)
-				  .sentiment(true)
-				  .limit(2)
-				  .build();
-				
-				ConceptsOptions concepts = new ConceptsOptions.Builder()
-				  .limit(2)						
-				  .build();
-
-				KeywordsOptions keywordsOptions = new KeywordsOptions.Builder()
-				  .emotion(true)
-				  .sentiment(true)
-				  .limit(2)
-				  .build();
+//				EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
+//				  .emotion(true)
+//				  .sentiment(true)
+//				  .limit(2)
+//				  .build();
+//				
+//				ConceptsOptions concepts = new ConceptsOptions.Builder()
+//				  .limit(2)						
+//				  .build();
+//
+//				KeywordsOptions keywordsOptions = new KeywordsOptions.Builder()
+//				  .emotion(true)
+//				  .sentiment(true)
+//				  .limit(2)
+//				  .build();
 
 				Features features = new Features.Builder()
-				  .entities(entitiesOptions)
-				  .concepts(concepts)
-				  .keywords(keywordsOptions)
+//				  .entities(entitiesOptions)
+//				  .concepts(concepts)
+//				  .keywords(keywordsOptions)
 				  .metadata(metadata)
 				  .build();
 
 				AnalyzeOptions parameters = new AnalyzeOptions.Builder()
-				  .text(text)
+				  .url(url)
 				  .features(features)
 				  .build();
 
