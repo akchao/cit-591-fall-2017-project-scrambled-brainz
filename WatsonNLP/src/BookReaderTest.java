@@ -14,7 +14,7 @@ public class BookReaderTest {
 	 * and that they are .txt
 	 */
 	@Test
-	public void testReadBooks() {
+	public void testReadBookUrls() {
 		BookReader br = new BookReader();
 		
 		ArrayList<String> urls = new ArrayList<String>();
@@ -31,6 +31,5 @@ public class BookReaderTest {
 
 		}
 	}
-
 
 }

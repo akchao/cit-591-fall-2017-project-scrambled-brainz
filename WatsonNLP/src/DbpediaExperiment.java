@@ -11,7 +11,8 @@ public class DbpediaExperiment {
 	public static void main(String[] args) {
 		
 		try {
-			Document doc = Jsoup.connect("http://en.wikipedia.org/w/index.php?title=Special:Search&search=To+Kill+a+Mockingbird").get();
+//			Document doc = Jsoup.connect("http://en.wikipedia.org/w/index.php?title=Special:Search&search=To+Kill+a+Mockingbird").get();
+			Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/For_Whom_the_Bell_Tolls").get();
 			
 			Elements tables = doc.select("table");
 			
@@ -31,6 +32,10 @@ public class DbpediaExperiment {
 			for (Element row : tableTags) {
 				System.out.println(row.text());
 			}
+			
+			String title = infobox.selectFirst("caption").text();
+			
+			System.out.println(title);
 			
 			
 			

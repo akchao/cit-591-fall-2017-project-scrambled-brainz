@@ -2,13 +2,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.google.gson.annotations.JsonAdapter;
 
@@ -30,47 +34,21 @@ public class BookReader {
 	
 	public BookReader() {
 		String file = "Book URLS.csv";
-		readBooks(file);
+		readBookUrls(file);
 		
 		for (String url : urls) {
 			Book book = new Book(url);
 			books.add(book);
 		}
 	}
-	
-//	public void URLReader() throws IOException {
-//		URL url = null;
-//		try {
-//			url= new URL("https://www.verisign.com/");
-//		} catch (MalformedURLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//        BufferedReader in = null;
-//		try {
-//			in = new BufferedReader(
-//			                        new InputStreamReader(
-//			                        url.openStream()));
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//        String inputLine;
-//
-//        while ((inputLine = in.readLine()) != null)
-//            System.out.println(inputLine);
-//
-//        in.close();
-//	}
-	
 		
-	
 	/**
-	 * read the URL of each book
+	 * read the URL of each book, and add it
+	 * to an ArrayList
 	 * @param file the .csv file containing
 	 * all of the URLs
 	 */
-	public void readBooks(String file) {
+	public void readBookUrls(String file) {
 		try {
 			File inputFile = new File(file);
 			Scanner in = new Scanner(inputFile);
