@@ -83,25 +83,25 @@ public class WatsonAnalyzer {
 				.limit(3)
 				.build();
 		
-//		// create customized emotion options = need to be from user
-//		List<String> targets = new ArrayList<>();
-//		targets.add("apples");
-//		targets.add("oranges");
-//
-//		EmotionOptions emotion = new EmotionOptions.Builder()
-//				.targets(targets)
-//				.build();
-//		
-// RELATIONS GOES THROUGH COMPLETE RELATIONS LIST TO FIND RELATIONSHIPS WITHIN TEXT
-// NOT BETWEEN TWO DIFFERENT TEXTS. CAN BE CUSTOMIZED BUT ONLY WITHIN TEXT
-//		RelationsOptions relations = new RelationsOptions.Builder()
-//				.build();
+		// create customized emotion options = this could be from user
+		List<String> targets = new ArrayList<>();
+		targets.add("apples");
+		targets.add("oranges");
+
+		EmotionOptions emotion = new EmotionOptions.Builder()
+				.targets(targets)
+				.build();
+		
+		// RELATIONS GOES THROUGH COMPLETE RELATIONS LIST TO FIND RELATIONSHIPS WITHIN TEXT
+		// NOT BETWEEN TWO DIFFERENT TEXTS. CAN BE CUSTOMIZED BUT ONLY WITHIN TEXT
+		RelationsOptions relations = new RelationsOptions.Builder()
+				.build();
 
 		Features features = new Features.Builder()
 				.entities(entitiesOptions)
-				.concepts(concepts)
-				.categories(categories)
-				.keywords(keywordsOptions)
+//				.concepts(concepts)
+//				.categories(categories)
+//				.keywords(keywordsOptions)
 //				.emotion(emotion)
 //				.relations(relations)
 				.build();
