@@ -25,7 +25,7 @@ public class Book {
 	private String title;
 	private String pubDate;
 	private String location;
-	private ArrayList<String> genre;
+	private ArrayList<String> genre = new ArrayList<String>();
 	
 	
 	public Book(String url) {
@@ -48,9 +48,10 @@ public class Book {
 					}
 				}				
 			} else if (s.contains("Publi")) {
-				pubDate = s.replaceAll("Publication Date ", "");
+				pubDate = s.replace("Publication Date ", "");
+				pubDate = s.replace("Published ", "");
 			} else if (s.contains("Title")) {
-				title = s.replaceAll("Title ", "");
+				title = s.replace("Title ", "");
 			}
 		}
 	}
@@ -173,6 +174,15 @@ public class Book {
 		}
 		return title;
 	}
+	
+	public void printBookData() {
+		System.out.println("Url: " + url);
+		System.out.println("Title: " + title);
+		System.out.println("Author: " + author);
+		System.out.println("PubDate: " + pubDate);
+		System.out.println("Location: " + location);
+		System.out.println("\n ############ \n");
+	}
 
 	
 	/**
@@ -246,8 +256,4 @@ public class Book {
 	public ArrayList<String> getGenre() {
 		return genre;
 	}
-
-	
-
-
 }

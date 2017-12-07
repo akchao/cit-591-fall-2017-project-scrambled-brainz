@@ -72,4 +72,8 @@ public class BookReader {
 		return urls;
 	}
 	
+	public ArrayList<Book> getBooks() {
+		return books;
+	}
+	
 }
