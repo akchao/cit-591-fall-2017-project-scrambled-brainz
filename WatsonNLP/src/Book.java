@@ -112,7 +112,7 @@ public class Book {
 	/**
 	 * method to find the Wikipedia page for the book
 	 * in question
-	 * @param url the book's Gutenberg URL
+	 * @param url the book's LoyalBooks url
 	 * @return Wikipedia URL with data on the book
 	 */
 	public String searchForBookWikipediaPage() {

@@ -1,20 +1,13 @@
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import com.google.gson.annotations.JsonAdapter;
 
 /**
  * class to get all of the book data
@@ -33,23 +26,15 @@ public class BookReader {
 	
 	
 	public BookReader() {
-		String file = "Book URLS.csv";
-		readBookUrls(file);
-		
-		for (String url : urls) {
-			Book book = new Book(url);
-			books.add(book);
-		}
+//		String file = "Book URLS.csv";
+//		readBookUrls(file);
+//		
+//		for (String url : urls) {
+//			Book book = new Book(url);
+//			books.add(book);
+//		}
 	}
-	
-	public void findBookUrls(String url) {
-				
-	}
-	
-	
-	
-	
-		
+			
 	/**
 	 * read the URL of each book, and add it
 	 * to an ArrayList
