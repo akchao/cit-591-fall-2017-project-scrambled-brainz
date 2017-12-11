@@ -41,6 +41,14 @@ public class BookReader {
 			books.add(book);
 		}
 	}
+	
+	public void findBookUrls(String url) {
+				
+	}
+	
+	
+	
+	
 		
 	/**
 	 * read the URL of each book, and add it
