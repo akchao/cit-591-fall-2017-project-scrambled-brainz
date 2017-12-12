@@ -111,6 +111,8 @@ public class Book {
 		return bookData;
 	}
 	
+	// work on exception handling should search engine reject
+	// query
 	
 	/**
 	 * method to find the Wikipedia page for the book
@@ -124,26 +126,26 @@ public class Book {
 		// String to begin searching Google
 		String google = "https://www.google.com/search?q=";
 		
-		// String to query Google for Wikipedia
-		String wikipedia = " Wikipedia";
-		
-		// encode search text to make it URL-friendly
-		String encodedSearchText = null;
-		try {
-			encodedSearchText = URLEncoder.encode(searchParam + wikipedia,"UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		
-		// concatenate with the Google search link
-		google += encodedSearchText;
+		String url = encodeUrl(google, searchParam);
 		
 		// get Google search page
 		Document doc = null;
 		try {
-			doc = Jsoup.connect(google).get();
+			doc = Jsoup.connect(url).get();
 		} catch (IOException e) {
-			e.printStackTrace();
+			String yahoo = "https://search.yahoo.com/search?p=";
+			url = encodeUrl(yahoo, searchParam);
+			try {
+				doc = Jsoup.connect(url).get();
+			} catch (IOException e1) {
+				String bing = "https://www.bing.com/search?q=";
+				url = encodeUrl(yahoo, searchParam);
+				try {
+					doc = Jsoup.connect(url).get();
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+			}
 		}
 
 		// go the the Wikipedia page -- the first link from Google
@@ -152,6 +154,20 @@ public class Book {
 		String wikipediaUrl = wikiPage.text();
 
 		return wikipediaUrl;
+	}
+	
+	public String encodeUrl(String url, String searchParam) {
+		String encodedSearchText = null;
+		String wikipedia = " Wikipedia";
+		try {
+			encodedSearchText = URLEncoder.encode(searchParam + wikipedia,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		url += encodedSearchText;
+		
+		return url;
 	}
 	
 	
