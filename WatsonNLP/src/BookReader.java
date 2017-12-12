@@ -31,6 +31,7 @@ public class BookReader {
 		
 		for (String url : urls) {
 			Book book = new Book(url);
+			book.extractWikipediaData();
 			books.add(book);
 		}
 	}

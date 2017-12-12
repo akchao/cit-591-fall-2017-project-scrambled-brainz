@@ -3,6 +3,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import javax.swing.plaf.basic.BasicTabbedPaneUI.TabbedPaneLayout;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -87,17 +89,27 @@ public class Book {
 			}
 			
 			// go through each row of the infobox 
-			Elements tableTags = infobox.select("tr");			
-	
-			// add each row's text to array
-			for (Element row : tableTags) {				
-				bookData.add(row.text());
+			Elements tableTags = null; 
+					
+			try {
+				tableTags = infobox.select("tr");
+				// add each row's text to array
+				for (Element row : tableTags) {				
+					bookData.add(row.text());
+				}
+			} catch (Exception NullPointerException) {
+				System.out.println("No table tags");
 			}
+	
 			
 			// get book's title
 			String title = null; 
 					
-			title = infobox.selectFirst("caption").text();
+			try {
+				title = infobox.selectFirst("caption").text();
+			} catch (Exception NullPointerException) {
+				System.out.println("no title");
+			}
 			
 			// append label to title
 			title = "Title " + title;
@@ -105,8 +117,8 @@ public class Book {
 			// add title to ArrayList
 			bookData.add(title);
 			
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception IllegalArgumentException) {
+//			e.printStackTrace();
 		}
 		return bookData;
 	}
