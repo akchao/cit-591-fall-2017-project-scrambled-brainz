@@ -11,5 +11,11 @@ public class Tester {
 
 		URLGetter ug = new URLGetter();
 		
+		ug.findBookUrls("http://www.loyalbooks.com/genre/Adventure");
+		
+		System.out.println(ug.getTxtLinks());
+		
+		ug.writeLinksToCsv();
+		
 	}
 }
