@@ -26,13 +26,13 @@ public class BookReader {
 	
 	
 	public BookReader() {
-//		String file = "Book URLS.csv";
-//		readBookUrls(file);
-//		
-//		for (String url : urls) {
-//			Book book = new Book(url);
-//			books.add(book);
-//		}
+		String file = "Book URLS.csv";
+		readBookUrls(file);
+		
+		for (String url : urls) {
+			Book book = new Book(url);
+			books.add(book);
+		}
 	}
 			
 	/**

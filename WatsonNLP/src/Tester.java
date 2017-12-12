@@ -1,3 +1,10 @@
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 /**
  * tester class for book functions
  *
@@ -9,13 +16,19 @@ public class Tester {
 
 	public static void main(String[] args) {
 
-		URLGetter ug = new URLGetter();
+//		BookPrinter bp = new BookPrinter();
+//		
+//		bp.printBooks();
 		
-		ug.findBookUrls("http://www.loyalbooks.com/genre/Adventure");
+		BookReader br = new BookReader();
 		
-		System.out.println(ug.getTxtLinks());
+		ArrayList<Book> books = new ArrayList<Book>(br.getBooks());
 		
-		ug.writeLinksToCsv();
+		for (Book book : books) {
+			book.extractWikipediaData();
+		}
+		
+		
 		
 	}
 }

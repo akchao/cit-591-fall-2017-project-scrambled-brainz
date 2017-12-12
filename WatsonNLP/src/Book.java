@@ -30,7 +30,9 @@ public class Book {
 	
 	public Book(String url) {
 		this.url = url;
-		
+	}
+	
+	public void storeData() {
 		ArrayList<String> bookData = new ArrayList<String>(extractWikipediaData());
 		
 		for (String datum : bookData) {
@@ -55,7 +57,6 @@ public class Book {
 			}
 		}
 	}
-
 
 	/**
 	 * class to extract data from Wikipedia
@@ -94,7 +95,9 @@ public class Book {
 			}
 			
 			// get book's title
-			String title = infobox.selectFirst("caption").text();
+			String title = null; 
+					
+			title = infobox.selectFirst("caption").text();
 			
 			// append label to title
 			title = "Title " + title;
@@ -158,20 +161,13 @@ public class Book {
 	 * @param url the corresponding URL to the book
 	 */
 	public String getBookSearchParam() {
-		String title = null;
+		String title = url;
 		
-		try {
-			// get the book title
-			Document doc = Jsoup.connect(url).get();
-			title = doc.title();
-			
-			// get ride of the " - Free Ebook" in title
-			// so that can search Google more easily
-			title = title.toLowerCase();
-			title = title.replaceAll(" - free ebook", "");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+		title = title.replaceAll("http://www.loyalbooks.com/download/text/", "");
+		title = title.replaceAll(".txt", "");
+		title = title.replaceAll("-", " ");
+		
 		return title;
 	}
 	

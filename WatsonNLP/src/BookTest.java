@@ -1,17 +1,38 @@
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import org.junit.Test;
 
 public class BookTest {
-
-
+		
+	public ArrayList<String> readBookUrls() {
+		ArrayList<String> urls = new ArrayList<String>();
+		try {
+			File inputFile = new File("Book URLs.csv");
+			Scanner in = new Scanner(inputFile);
+			
+			// skip the column header
+			in.nextLine();
+			
+			while (in.hasNextLine()) {
+				urls.add(in.nextLine());
+			}
+			
+			// close the document
+			in.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return urls;
+	}
+	
 	@Test
 	public void testGetBookSearchParam() {
-		BookReader br = new BookReader();
-		
-		ArrayList<String> urls = new ArrayList<String>(br.getUrls());
+		ArrayList<String> urls = new ArrayList<String>(readBookUrls());
 		
 		for (String url : urls) {
 			Book b = new Book(url);
@@ -25,10 +46,9 @@ public class BookTest {
 	
 	@Test
 	public void testSearchForBookWikipediaPage() {
-		BookReader br = new BookReader();
+		ArrayList<String> urls = new ArrayList<String>(readBookUrls());
 		
-		ArrayList<String> urls = new ArrayList<String>();
-		
+		int i = 0;
 		for (String url : urls) {
 			Book b = new Book(url);
 			String wikipediaUrl = b.searchForBookWikipediaPage();
@@ -39,4 +59,14 @@ public class BookTest {
 			}
 		}
 	}
+	
+//	@Test (expected = Exception.class)
+//	public void testExtractWikipediaData() {
+//		ArrayList<String> urls = new ArrayList<String>(readBookUrls());
+//		
+//		for (String url : urls) {
+//			Book b = new Book(url);
+//		}
+//		
+//	}
 }
