@@ -85,40 +85,9 @@ public class WatsonAnalyzer {
 				.sentiment(true)		// might not need this
 				.limit(250) 			// 250 max limit
 				.build();
-		
-		ConceptsOptions concepts = new ConceptsOptions.Builder()
-				  .limit(3)	
-				  .build();
-		
-		CategoriesOptions categories = new CategoriesOptions();
-		
-		KeywordsOptions keywordsOptions = new KeywordsOptions.Builder()
-				.emotion(true)
-				.sentiment(true)
-				.limit(50)
-				.build();
-		
-		// create customized emotion options = this could be from user
-		List<String> targets = new ArrayList<>();
-		targets.add("input1");
-		targets.add("input2");
-
-		EmotionOptions emotion = new EmotionOptions.Builder()
-				.targets(targets)
-				.build();
-		
-		// RELATIONS GOES THROUGH COMPLETE RELATIONS LIST TO FIND RELATIONSHIPS WITHIN TEXT
-		// NOT BETWEEN TWO DIFFERENT TEXTS. CAN BE CUSTOMIZED BUT ONLY WITHIN TEXT
-		RelationsOptions relations = new RelationsOptions.Builder()
-				.build();
 
 		Features features = new Features.Builder()
 				.entities(entitiesOptions)
-//				.concepts(concepts)
-//				.categories(categories)
-//				.keywords(keywordsOptions)
-//				.emotion(emotion)
-//				.relations(relations)
 				.build();
 
 		AnalyzeOptions parameters = new AnalyzeOptions.Builder()
@@ -182,5 +151,70 @@ public class WatsonAnalyzer {
 	public List<EntitiesResult> getWatsonEntities() {
 		return watsonEntities;
 	}
+	
+	// TODO: DEFAULT LIMIT OR ALLOW USER TO SET LIMIT?
+	/**
+	 * This runs majority of Watson's features
+	 * @param book the book as a string
+	 */
+	public void runAllWatsonFeatures(String book) {
+		
+		// not possible to customize entity to find "Person" type
+		// running max limit 250 and will find "Person" type in WatsonParser
+		EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
+				.emotion(true)
+				.sentiment(true)		// might not need this
+				.limit(50) 			// 250 max limit
+				.build();
+		
+		ConceptsOptions concepts = new ConceptsOptions.Builder()
+				  .limit(3)	
+				  .build();
+		
+		CategoriesOptions categories = new CategoriesOptions();
+		
+		KeywordsOptions keywordsOptions = new KeywordsOptions.Builder()
+				.emotion(true)
+				.sentiment(true)
+				.limit(50)
+				.build();
+		
+		// create customized emotion options = this could be from user
+		List<String> targets = new ArrayList<>();
+		targets.add("input1");
+		targets.add("input2");
+
+		EmotionOptions emotion = new EmotionOptions.Builder()
+				.targets(targets)
+				.build();
+		
+		// RELATIONS GOES THROUGH COMPLETE RELATIONS LIST TO FIND RELATIONSHIPS WITHIN TEXT
+		// NOT BETWEEN TWO DIFFERENT TEXTS. CAN BE CUSTOMIZED BUT ONLY WITHIN TEXT
+		RelationsOptions relations = new RelationsOptions.Builder()
+				.build();
+
+		Features features = new Features.Builder()
+				.entities(entitiesOptions)
+//				.concepts(concepts)
+//				.categories(categories)
+//				.keywords(keywordsOptions)
+//				.emotion(emotion)
+//				.relations(relations)
+				.build();
+
+		AnalyzeOptions parameters = new AnalyzeOptions.Builder()
+				.text(book)
+				.features(features)
+				.build();
+
+		response = service
+				.analyze(parameters)
+				.execute();
+		
+		watsonConcepts = response.getConcepts();
+		watsonEntities = response.getEntities();
+		
+	}		
+	
 	
 }
