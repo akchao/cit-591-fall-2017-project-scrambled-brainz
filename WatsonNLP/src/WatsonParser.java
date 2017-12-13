@@ -8,9 +8,7 @@ import com.google.gson.JsonParser;
  */
 public class WatsonParser {
 	
-	// TODO: CUSTOMIZE ENTITY FOR JUST "PERSON" ENTITY TYPE OTHERWISE FILTER OUT
-	// TODO: INSTEAD OF OBTAINING PARSE VALUES, BUILD HASHMAPS? 
-	
+	private String type;
 	private String name;
 	private double relevance;
 	private int count;	
@@ -31,29 +29,39 @@ public class WatsonParser {
 	}
 	
 	/**
-	 * Parse entity
+	 * Parses a single Person entity response
 	 * @param text
 	 */
-	public void parseEntity(String text) {
+	public void parsePersonEntity(String text) {
 		JsonObject entityResponse = new JsonParser().parse(text)
 				.getAsJsonObject();
 		
-		name = entityResponse.get("text").getAsString();
-		relevance = entityResponse.get("relevance").getAsDouble();
-		count = entityResponse.get("count").getAsInt();
+		// check if type is "Person" otherwise do nothing
+		type = entityResponse.get("type").getAsString();
+		if (type.equals("Person")) {
 			
-		JsonObject emotion = entityResponse.get("emotion").getAsJsonObject();
-		angerScore = emotion.get("anger").getAsDouble();
-		disgustScore = emotion.get("disgust").getAsDouble();
-		fearScore = emotion.get("fear").getAsDouble();
-		joyScore = emotion.get("joy").getAsDouble();
-		sadnessScore = emotion.get("sadness").getAsDouble();
+			name = entityResponse.get("text").getAsString();
+			relevance = entityResponse.get("relevance").getAsDouble();
+			count = entityResponse.get("count").getAsInt();
+				
+			JsonObject emotion = entityResponse.get("emotion").getAsJsonObject();
+			angerScore = emotion.get("anger").getAsDouble();
+			disgustScore = emotion.get("disgust").getAsDouble();
+			fearScore = emotion.get("fear").getAsDouble();
+			joyScore = emotion.get("joy").getAsDouble();
+			sadnessScore = emotion.get("sadness").getAsDouble();
 
-		JsonObject sentiment = entityResponse.get("sentiment").getAsJsonObject();
-		sentimentScore = sentiment.get("score").getAsDouble();
-		
+			JsonObject sentiment = entityResponse.get("sentiment").getAsJsonObject();
+			sentimentScore = sentiment.get("score").getAsDouble();
+		} 
 	}
 	
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
 	
 	/**
 	 * @return the name

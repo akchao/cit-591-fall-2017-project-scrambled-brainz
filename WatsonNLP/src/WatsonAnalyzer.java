@@ -152,6 +152,7 @@ public class WatsonAnalyzer {
 		return watsonEntities;
 	}
 	
+	
 	// TODO: DEFAULT LIMIT OR ALLOW USER TO SET LIMIT?
 	/**
 	 * This runs majority of Watson's features
