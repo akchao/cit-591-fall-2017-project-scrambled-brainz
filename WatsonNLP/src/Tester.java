@@ -16,17 +16,25 @@ public class Tester {
 
 	public static void main(String[] args) {
 
-//		BookPrinter bp = new BookPrinter();
+		BookPrinter bp = new BookPrinter();
+		
+		bp.printBooks();
+		
+//		BookReader br = new BookReader();
 //		
-//		bp.printBooks();
+//		ArrayList<Book> books = new ArrayList<Book>(br.getBooks());
+//		
+//		for (Book book : books) {
+//			book.extractWikipediaData();
+//		}
+//		
 		
-		BookReader br = new BookReader();
 		
-		ArrayList<Book> books = new ArrayList<Book>(br.getBooks());
-		
-		for (Book book : books) {
-			book.extractWikipediaData();
-		}
+//		Book b = new Book("http://www.loyalbooks.com/download/text/Crime-and-Punishment-by-Fyodor-Dostoyevsky.txt");
+//		
+//		b.storeData();
+//		
+//		b.printBookData();
 		
 		
 		

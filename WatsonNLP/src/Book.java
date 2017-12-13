@@ -3,8 +3,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import javax.swing.plaf.basic.BasicTabbedPaneUI.TabbedPaneLayout;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,35 +25,52 @@ public class Book {
 	private String title;
 	private String pubDate;
 	private String location;
+	
+	// indicator to assess whether book has
+	// Wikipedia data or not
+	private Boolean hasData;
 	private ArrayList<String> genre = new ArrayList<String>();
 	
 	
 	public Book(String url) {
 		this.url = url;
+		hasData = false;
 	}
 	
+	/**
+	 * store data into Book object's instance variables
+	 * only if the book has data to store
+	 */
 	public void storeData() {
-		ArrayList<String> bookData = new ArrayList<String>(extractWikipediaData());
+		ArrayList<String> bookData = new ArrayList<String>();
+		try { 
+			 bookData = new ArrayList<String>(extractWikipediaData());
+		} catch (Exception NullPointerExeption) {
+			// exit method if has no data
+			return;
+		}
 		
-		for (String datum : bookData) {
-			String s = datum;
-			if (s.contains("Author")) {
-				author = s.replaceAll("Author ", "");
-			} else if (s.contains("Country")) {
-				location = s.replaceAll("Country ", "");
-			} else if (s.contains("Genre")) {
-				String genreTemp = s.replaceAll("Genre ", "");
-				if (genreTemp.contains(",")) {
-					String[] gt = genreTemp.split(", ");
-					for (String g : gt) {
-						genre.add(g);
-					}
-				}				
-			} else if (s.contains("Publi")) {
-				pubDate = s.replace("Publication Date ", "");
-				pubDate = s.replace("Published ", "");
-			} else if (s.contains("Title")) {
-				title = s.replace("Title ", "");
+		if (hasData) {
+			for (String datum : bookData) {
+				String s = datum;
+				if (s.contains("Author")) {
+					author = s.replaceAll("Author ", "");
+				} else if (s.contains("Country")) {
+					location = s.replaceAll("Country ", "");
+				} else if (s.contains("Genre")) {
+					String genreTemp = s.replaceAll("Genre ", "");
+					if (genreTemp.contains(",")) {
+						String[] gt = genreTemp.split(", ");
+						for (String g : gt) {
+							genre.add(g);
+						}
+					}				
+				} else if (s.contains("Publi")) {
+					pubDate = s.replaceAll("[pP]ublication [dD]ate ", "");
+					pubDate = s.replaceAll("Published ", "");
+				} else if (s.contains("Title")) {
+					title = s.replace("Title ", "");
+				}
 			}
 		}
 	}
@@ -97,8 +112,10 @@ public class Book {
 				for (Element row : tableTags) {				
 					bookData.add(row.text());
 				}
+				hasData = true;
 			} catch (Exception NullPointerException) {
-				System.out.println("No table tags");
+				hasData = false;
+				return null;
 			}
 	
 			
@@ -107,15 +124,18 @@ public class Book {
 					
 			try {
 				title = infobox.selectFirst("caption").text();
+				// append label to title
+				title = "Title " + title;
+				
+				// add title to ArrayList
+				bookData.add(title);
+				hasData = true;
 			} catch (Exception NullPointerException) {
-				System.out.println("no title");
+				hasData = false;
+				return null;
 			}
 			
-			// append label to title
-			title = "Title " + title;
 			
-			// add title to ArrayList
-			bookData.add(title);
 			
 		} catch (Exception IllegalArgumentException) {
 //			e.printStackTrace();
@@ -129,6 +149,11 @@ public class Book {
 	/**
 	 * method to find the Wikipedia page for the book
 	 * in question
+	 * 
+	 * Will first search google for Wikipedia page.
+	 * Once Google starts rejecting requests due to
+	 * bot behavior, go to another search engine
+	 * 
 	 * @param url the book's LoyalBooks url
 	 * @return Wikipedia URL with data on the book
 	 */
@@ -145,13 +170,15 @@ public class Book {
 		try {
 			doc = Jsoup.connect(url).get();
 		} catch (IOException e) {
+			// should Google fail, go to Yahoo
 			String yahoo = "https://search.yahoo.com/search?p=";
 			url = encodeUrl(yahoo, searchParam);
 			try {
 				doc = Jsoup.connect(url).get();
 			} catch (IOException e1) {
+				// should Yahoo fail, go to Bing
 				String bing = "https://www.bing.com/search?q=";
-				url = encodeUrl(yahoo, searchParam);
+				url = encodeUrl(bing, searchParam);
 				try {
 					doc = Jsoup.connect(url).get();
 				} catch (IOException e2) {
@@ -159,8 +186,9 @@ public class Book {
 				}
 			}
 		}
-
-		// go the the Wikipedia page -- the first link from Google
+		
+		// go the the Wikipedia page -- the first link from 
+		// the search engine
 		Element wikiPage = doc.getElementsByTag("cite").get(0);
 		
 		String wikipediaUrl = wikiPage.text();
@@ -168,8 +196,16 @@ public class Book {
 		return wikipediaUrl;
 	}
 	
+	/**
+	 * method to encode a search parameter to be URL-friendly
+	 * @param url the search engine URL
+	 * to encode the search parameter with
+	 * @param searchParam the query for the search engine
+	 * @return the encoded search engine URL with the query
+	 */
 	public String encodeUrl(String url, String searchParam) {
 		String encodedSearchText = null;
+		// String to append to eng of searchParam
 		String wikipedia = " Wikipedia";
 		try {
 			encodedSearchText = URLEncoder.encode(searchParam + wikipedia,"UTF-8");
@@ -177,6 +213,7 @@ public class Book {
 			e.printStackTrace();
 		}
 		
+		// append the encoded search text to the search engine URL
 		url += encodedSearchText;
 		
 		return url;
@@ -189,9 +226,10 @@ public class Book {
 	 * @param url the corresponding URL to the book
 	 */
 	public String getBookSearchParam() {
+		// the book's title will be in its URL
 		String title = url;
 		
-		
+		// get rid of all unnecessary pieces of the URL:
 		title = title.replaceAll("http://www.loyalbooks.com/download/text/", "");
 		title = title.replaceAll(".txt", "");
 		title = title.replaceAll("-", " ");
@@ -199,6 +237,10 @@ public class Book {
 		return title;
 	}
 	
+	/**
+	 * method to print all data on a book
+	 * to the console
+	 */
 	public void printBookData() {
 		System.out.println("Url: " + url);
 		System.out.println("Title: " + title);
@@ -271,6 +313,14 @@ public class Book {
 	 */
 	public String getLocation() {
 		return location;
+	}
+	
+	/**
+	 * assess if book has data
+	 * @return
+	 */
+	public Boolean hasData() {
+		return hasData;
 	}
 
 	/**

@@ -27,7 +27,7 @@ public class URLGetter {
 	public URLGetter() {
 		index = 0;
 		ArrayList<String> genres = new ArrayList<String>(findGenres());
-		
+				
 		for (String genre : genres) {
 			findBookUrls(genre);
 		}
@@ -143,7 +143,7 @@ public class URLGetter {
 			// add each link to the ArrayList
 			for (Element g : genres) {
 				String link = g.attr("abs:href");
-				link = link + append;
+				link = link + append;			
 				genreLinks.add(link);
 			}
 			

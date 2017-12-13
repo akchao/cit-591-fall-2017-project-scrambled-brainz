@@ -21,18 +21,32 @@ public class BookReader {
 	private ArrayList<String> urls = new ArrayList<String>();
 	ArrayList<Book> books = new ArrayList<Book>();	
 	private String json;
+	private static int index;
+	private static int booksWithData;
 	
 //	private String url;
 	
 	
 	public BookReader() {
+		index = 0;
+		booksWithData = 0;
 		String file = "Book URLS.csv";
 		readBookUrls(file);
 		
+//		urls.add("http://www.loyalbooks.com/download/text/Oliver-Twist-by-Charles-Dickens.txt");
+//		urls.add("http://www.loyalbooks.com/download/text/Duchess-of-Malfi.txt");
+//		urls.add("http://www.loyalbooks.com/download/text/Master-Builder-Henrik-Ibsen.txt");
+//		urls.add("http://www.loyalbooks.com/download/text/Gullivers-Travels-by-Jonathan-Swift.txt");
+//		urls.add("http://www.loyalbooks.com/download/text/This-Side-of-Paradise-by-F-Scott-Fitzgerald.txt");
+		
 		for (String url : urls) {
 			Book book = new Book(url);
-			book.extractWikipediaData();
-			books.add(book);
+			book.storeData();
+			System.out.println(++index);
+			if (book.hasData()) {
+				System.out.println("\t" + ++booksWithData);
+				books.add(book);
+			}
 		}
 	}
 			

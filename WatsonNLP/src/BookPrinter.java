@@ -9,22 +9,35 @@ import java.util.ArrayList;
  */
 public class BookPrinter {
 
+	/**
+	 * constructor
+	 */
 	public BookPrinter() {
-
 	}
 	
+	/**
+	 * method to print books to .csv file
+	 */
 	public void printBooks() {
 		BookReader br = new BookReader();
 		
+		// store books in ArrayList
 		ArrayList<Book> books = new ArrayList<Book>(br.getBooks());
+		
+		// get data for each book
+		for (Book book : books) {
+			book.storeData();
+			book.printBookData();
+		}
 		
 		try {
 			PrintWriter out = new PrintWriter("Book-Data.csv");
 			
+			// write header
 			out.println("Title,Author,Publication Date,Location,Genre,URL");
 			
+			// write each line
 			for (Book book : books) {
-				System.out.println(book.getTitle());
 				out.print(book.getTitle() + ",");
 				out.print(book.getAuthor() + ",");
 				out.print(book.getPubDate() + ",");
@@ -33,6 +46,7 @@ public class BookPrinter {
 				out.println(book.getUrl() + "\n");				
 			}
 			
+			// close the buffer
 			out.close();		
 			
 		} catch (FileNotFoundException e) {
