@@ -27,7 +27,6 @@ public class BookPrinter {
 		// get data for each book
 		for (Book book : books) {
 			book.storeData();
-			book.printBookData();
 		}
 		
 		try {

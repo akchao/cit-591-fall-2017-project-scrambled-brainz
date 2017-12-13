@@ -64,7 +64,9 @@ public class Book {
 						for (String g : gt) {
 							genre.add(g);
 						}
-					}				
+					} else {
+						genre.add(genreTemp);
+					}
 				} else if (s.contains("Publi")) {
 					pubDate = s.replaceAll("[pP]ublication [dD]ate ", "");
 					pubDate = s.replaceAll("Published ", "");
