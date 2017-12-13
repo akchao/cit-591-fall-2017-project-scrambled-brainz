@@ -30,6 +30,7 @@ public class WatsonParserTest {
 				"}";
 		
 		wp.parseEntity(sample);
+//		assertEquals();
 		System.out.println("Name: " + wp.getName());
 		System.out.println("Relevance: " + wp.getRelevance());
 		System.out.println("Count: " + wp.getCount());

@@ -34,6 +34,10 @@ public class WatsonTester {
 		System.out.println("part 3");
 		System.out.println(wa3.getWatsonResponse());
 
+
+
+		
+		
 	}
 
 }

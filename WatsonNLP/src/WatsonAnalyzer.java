@@ -16,7 +16,13 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.En
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.KeywordsOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.RelationsOptions;
-
+/**
+ * Runs the Watson Natural Language Understanding service 
+ * using either a URL or provided text
+ * and uses it to find the mood of the characters 
+ * @author Alice
+ *
+ */
 public class WatsonAnalyzer {
 	
 	private static NaturalLanguageUnderstanding service;
@@ -29,21 +35,30 @@ public class WatsonAnalyzer {
 	/**
 	 * Constructor initializes Watson Natural Language Understanding API 
 	 */
-	public WatsonAnalyzer(String bookName) {
-		fileReader(bookName);
-//		fileReader("pride-prejudice.txt");	// instead pass in book to constructor
+	public WatsonAnalyzer(String bookNameOrUrl) {
+		
 		service = new NaturalLanguageUnderstanding(
 				  NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
 				  Secret.username, Secret.password);
-		runWatson(text);
+		
+		if (bookNameOrUrl.contains("http://")) {
+			runURLEntitiesEmotion(bookNameOrUrl);
+		} else if (bookNameOrUrl.contains(".txt")) {
+			text = fileReader(bookNameOrUrl);
+//			fileReader("pride-prejudice.txt");	// instead pass in book to constructor
+			runEntitiesEmotion(text);
+		} else {									// pass the entire book as a string
+			runEntitiesEmotion(bookNameOrUrl);
+		}
+
 	}
 	
 	
 	/**
 	 * Temporary fileReader until this is abstracted out
-	 * @return
+	 * @return text the book stored as a string
 	 */
-	public String fileReader(String book) {
+	private String fileReader(String book) {
 		File inputFile = new File(book); 	
 		try {
 			Scanner in = new Scanner(inputFile, "utf-8");
@@ -58,35 +73,35 @@ public class WatsonAnalyzer {
 	
 	
 	/**
-	 * Runs customized Watson NLU API
+	 * Runs a string through customized Watson NLU API
 	 * @param book the book as a string
 	 */
-	public void runWatson(String book) {
+	public void runEntitiesEmotion(String book) {
 		
-		// TODO: CUSTOMIZE ENTITY FOR JUST "PERSON" TYPE, OTHERWISE FILTER OUT
+		// not possible to customize entity to find "Person" type
+		// running max limit 250 and will find "Person" type in WatsonParser
 		EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
 				.emotion(true)
-				.sentiment(true)
-				.limit(3) 	// increase the limit to max to find all characters in a book
+				.sentiment(true)		// might not need this
+				.limit(250) 			// 250 max limit
 				.build();
 		
 		ConceptsOptions concepts = new ConceptsOptions.Builder()
-				  .limit(3)	// set limit?
+				  .limit(3)	
 				  .build();
 		
 		CategoriesOptions categories = new CategoriesOptions();
 		
-		// TODO: CUSTOMIZE OR FILTER OUT KEYWORDS BASED ON METRIC
 		KeywordsOptions keywordsOptions = new KeywordsOptions.Builder()
 				.emotion(true)
 				.sentiment(true)
-				.limit(3)
+				.limit(50)
 				.build();
 		
 		// create customized emotion options = this could be from user
 		List<String> targets = new ArrayList<>();
-		targets.add("apples");
-		targets.add("oranges");
+		targets.add("input1");
+		targets.add("input2");
 
 		EmotionOptions emotion = new EmotionOptions.Builder()
 				.targets(targets)
@@ -107,7 +122,7 @@ public class WatsonAnalyzer {
 				.build();
 
 		AnalyzeOptions parameters = new AnalyzeOptions.Builder()
-				.text(text)
+				.text(book)
 				.features(features)
 				.build();
 
@@ -120,7 +135,39 @@ public class WatsonAnalyzer {
 		
 	}		
 
+	/**
+	 * Runs a book URL through customized Watson NLU API
+	 * @param url the book's URL
+	 */
+	public void runURLEntitiesEmotion(String url) {
+
+		// not possible to customize entity to find "Person" type
+		// running max limit 250 and will find "Person" type in WatsonParser
+		EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
+				.emotion(true)
+				.sentiment(true)		// might not need this
+				.limit(250) 			// 250 max limit
+				.build();
+
+		Features features = new Features.Builder()
+				.entities(entitiesOptions)
+				.build();
+
+		AnalyzeOptions parameters = new AnalyzeOptions.Builder()
+				.url(url)
+				.features(features)
+				.build();
+
+		response = service
+				.analyze(parameters)
+				.execute();
+
+		watsonEntities = response.getEntities();
+
+	}	
 		
+
+
 	/**
 	 * @return the watsonResponse
 	 */
