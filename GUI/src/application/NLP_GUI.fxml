@@ -19,7 +19,7 @@
    <children>
       <BorderPane prefHeight="700.0" prefWidth="1093.0" AnchorPane.leftAnchor="0.0">
          <left>
-            <VBox prefHeight="446.0" prefWidth="257.0" spacing="8.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="600.0" prefWidth="257.0" spacing="8.0" BorderPane.alignment="CENTER">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -48,8 +48,14 @@
                         <Insets bottom="10.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <ListView fx:id="bookList1" prefHeight="338.0" prefWidth="233.0" />
-                  <Button fx:id="compareWith" mnemonicParsing="false" text="Compare" />
+                  <ListView fx:id="comparisonList" prefHeight="338.0" prefWidth="233.0" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="compareWith" mnemonicParsing="false" onAction="#generateGraph" text="Compare" />
+                        <Region prefHeight="25.0" prefWidth="12.0" />
+                        <Button fx:id="noCompare" mnemonicParsing="false" onAction="#undoCompare" text="Undo Compare" />
+                     </children>
+                  </HBox>
                </children>
                <padding>
                   <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
@@ -67,24 +73,41 @@
             </LineChart>
          </center>
          <bottom>
-            <VBox prefHeight="93.0" prefWidth="788.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="148.0" prefWidth="814.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="37.0" prefWidth="470.0" spacing="10.0">
+                  <HBox prefHeight="10.0" prefWidth="1073.0" spacing="10.0">
                      <children>
                         <Region prefHeight="17.0" prefWidth="541.0" />
-                        <CheckBox fx:id="sadCheck" mnemonicParsing="false" text="Sadness" />
-                        <CheckBox fx:id="joyCheck" mnemonicParsing="false" text="Joy" />
-                        <CheckBox fx:id="fearCheck" mnemonicParsing="false" text="Fear" />
-                        <CheckBox fx:id="disgustCheck" mnemonicParsing="false" text="Disgust" />
                         <CheckBox fx:id="angerCheck" mnemonicParsing="false" text="Anger" />
+                        <CheckBox fx:id="joyCheck" mnemonicParsing="false" text="Joy" />
+                        <CheckBox fx:id="disgustCheck" mnemonicParsing="false" text="Disgust" />
+                        <CheckBox fx:id="sadCheck" mnemonicParsing="false" text="Sadness" />
+                        <CheckBox fx:id="fearCheck" mnemonicParsing="false" text="Fear" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding></HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="107.0" prefWidth="1073.0">
                      <children>
-                        <Region prefHeight="16.0" prefWidth="633.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sentiments to Display" />
+                        <Region prefHeight="71.0" prefWidth="630.0" />
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sentiments to Display" wrappingWidth="114.931640625">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin></Text>
+                              <Region prefHeight="10.0" prefWidth="115.0" />
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Region prefHeight="25.0" prefWidth="10.0" />
+                                    <Button fx:id="updateGraph" mnemonicParsing="false" onAction="#generateGraph" text="Update Graph" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
