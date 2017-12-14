@@ -42,9 +42,23 @@ public class WatsonParser {
 	}
 	
 	
-	public void removeNonPerson(List<EntitiesResult> watsonResponse) {
+	public void removeNonPerson(List<String> watsonResponse) {
 		
-	}
+		for (int i=0; i<watsonResponse.size(); i++) {
+		
+			JsonObject entityResponse = new JsonParser()
+					.parse(watsonResponse.get(i).toString())
+					.getAsJsonObject();
+			
+			type = entityResponse.get("type").getAsString();
+			if (type.equals("Person")) {
+				continue;
+			} else {
+				watsonResponse.remove(i);
+			}
+		}
+			
+	} 
 	
 	/**
 	 * Parses a single Person entity response
@@ -76,36 +90,31 @@ public class WatsonParser {
 	
 	public void buildCharacterProfile() {
 		Map<String, Object> config = new HashMap<String, Object>();
-	//	config.put("javax.json.stream.JsonGenerator.prettyPrinting", Boolean.valueOf(true));
         
 		 JsonBuilderFactory factory = Json.createBuilderFactory(config);
 		 javax.json.JsonObject value = factory.createObjectBuilder()
-		     .add("firstName", "John")
-		     .add("lastName", "Smith")
-		     .add("age", 25)
-		     .add("address", factory.createObjectBuilder()
-		         .add("streetAddress", "21 2nd Street")
-		         .add("city", "New York")
-		         .add("state", "NY")
-		         .add("postalCode", "10021"))
-		     .add("phoneNumber", factory.createArrayBuilder()
-		         .add(factory.createObjectBuilder()
-		             .add("type", "home")
-		             .add("number", "212 555-1234"))
-		         .add(factory.createObjectBuilder()
-		             .add("type", "fax")
-		             .add("number", "646 555-4567")))
+			 .add(name, factory.createObjectBuilder())	 
+		     .add("emotions", factory.createArrayBuilder()
+		    		 .add(factory.createObjectBuilder()
+		    		     .add("anger", angerScore)
+		    		     .add("disgust", disgustScore)
+		    		     .add("fear", fearScore)
+		    		     .add("joy", joyScore)
+		    		     .add("sadness", sadnessScore)))
 		     .build();
-			
-		 JsonWriterFactory factory2 = Json.createWriterFactory(value);
+		
+		 // testing out formatting
+//		config.put("javax.json.stream.JsonGenerator.prettyPrinting", Boolean.valueOf(true));
 
-		 int spacesToIndentEachLevel = 2;
-		 try {
-			new JSONObject(value).toString(spacesToIndentEachLevel);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		 System.out.println(factory);
+//		JsonWriterFactory factory2 = Json.createWriterFactory(value);
+//
+//		int spacesToIndentEachLevel = 2;
+//		try {
+//			new JSONObject(value).toString(spacesToIndentEachLevel);
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+//		 System.out.println(factory);
 	}
 	
 	/*

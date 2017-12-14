@@ -1,7 +1,12 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesResult;
 /**
  * Test methods from WatsonParserTest
  * @author Alice
@@ -12,6 +17,7 @@ public class WatsonParserTest {
 	WatsonParser wp;
 	String sampleEntityPerson;
 	String sampleEntityNonPerson;
+	List<String> sample;
 	
 	@Before
 	public void setupWatsonTest() {
@@ -50,6 +56,12 @@ public class WatsonParserTest {
 				"    \"score\": 0.0\n" + 
 				"  }\n" + 
 				"}";
+		
+		//List<EntitiesResult> sample = new ArrayList<>();
+		sample = new ArrayList<>();
+		sample.add(sampleEntityPerson);
+		sample.add(sampleEntityNonPerson);
+		
 	}
 
 	@Test
@@ -59,6 +71,7 @@ public class WatsonParserTest {
 		assertEquals("Person",wp.getType());	
 		fail("WatsonParser could not identify a Person entity type");
 	}
+	 
 	
 	@Test 
 	public void testParseEntityNonPersonIsNotAPerson() {
@@ -67,7 +80,15 @@ public class WatsonParserTest {
 		assertNotSame("WatsonParser incorrectly identified a non-person "
 				+ "entity as a person","Person",wp.getType());
 		fail("WatsonParser incorrectly identified a non-person entity as a person");
+	} 
+	
+	
+	@Test
+	public void testParseRemoveNonPerson( ) {
+		wp.removeNonPerson(sample);
+		assertEquals(sampleEntityPerson,sample.get(0));
 	}
+	 
 	
 	@Test 
 	public void testNoBlankResponses() {
@@ -109,7 +130,7 @@ public class WatsonParserTest {
 	@Test
 	public void testParseEntityForAngerScore() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertSame(0.078232,wp.getCount());
+		assertSame(0.078232,wp.getAngerScore());
 	}
 	
 

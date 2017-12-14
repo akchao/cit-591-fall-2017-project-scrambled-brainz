@@ -1,3 +1,9 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 /**
  * Tester class for WatsonAnalyzer and WatsonParser
  * @author Alice
@@ -34,7 +40,69 @@ public class WatsonTester {
 //		System.out.println("part 3");
 //		System.out.println(wa3.getWatsonResponse());
 
-		wp.buildCharacterProfile();
+		
+		
+//		wp.buildCharacterProfile();
+		
+		
+		String sampleEntityNonPerson = "{\n" + 
+				"  \"type\": \"Location\",\n" + 
+				"  \"relevance\": 0.880592,\n" + 
+				"  \"count\": 70,\n" + 
+				"  \"text\": \"Elizabeth Bennet\",\n" + 
+				"  \"emotion\": {\n" + 
+				"    \"anger\": 0.078232,\n" + 
+				"    \"disgust\": 0.026196,\n" + 
+				"    \"fear\": 0.116198,\n" + 
+				"    \"joy\": 0.244804,\n" + 
+				"    \"sadness\": 0.112424\n" + 
+				"  },\n" + 
+				"  \"sentiment\": {\n" + 
+				"    \"score\": 0.0\n" + 
+				"  }\n" + 
+				"}";
+		
+		String sampleEntityPerson = "{\n" + 
+				"  \"type\": \"Person\",\n" + 
+				"  \"relevance\": 0.880592,\n" + 
+				"  \"count\": 70,\n" + 
+				"  \"text\": \"Elizabeth Bennet\",\n" + 
+				"  \"emotion\": {\n" + 
+				"    \"anger\": 0.078232,\n" + 
+				"    \"disgust\": 0.026196,\n" + 
+				"    \"fear\": 0.116198,\n" + 
+				"    \"joy\": 0.244804,\n" + 
+				"    \"sadness\": 0.112424\n" + 
+				"  },\n" + 
+				"  \"sentiment\": {\n" + 
+				"    \"score\": 0.0\n" + 
+				"  }\n" + 
+				"}";
+		
+		List<String> sampleList = new ArrayList<>();
+				sampleList.add(sampleEntityPerson);
+				sampleList.add(sampleEntityNonPerson);
+		
+		JsonObject entityResponse = new JsonParser().parse(sampleEntityNonPerson)
+				.getAsJsonObject();
+		
+		// check if type is "Person" otherwise do nothing
+		String type = entityResponse.get("type").getAsString();
+		if (type.equals("Person")) {
+			System.out.println("person");
+		} else {
+			System.out.println("not a person");
+		}
+		
+		wp.removeNonPerson(sampleList);
+		System.out.println(sampleList);
+		wp.parsePersonEntity(sampleList.get(0));
+		System.out.println(wp.getName());
+		System.out.println(wp.getCount());
+		System.out.println(wp.getRelevance());
+		System.out.println(wp.getAngerScore());
+		System.out.println(wp.getDisgustScore());
+
 		
 		
 	}

@@ -30,6 +30,7 @@ public class WatsonAnalyzer {
 	private static AnalysisResults response;
 	private static List<ConceptsResult> watsonConcepts;
 	private static List<EntitiesResult> watsonEntities;
+	private static List<String> watsonEntitiesString;
 	
 	
 	/**
@@ -59,14 +60,16 @@ public class WatsonAnalyzer {
 	 * @return text the book stored as a string
 	 */
 	private String fileReader(String book) {
-		File inputFile = new File(book); 	
+		File inputFile = new File(book); 
+		Scanner in = null;
 		try {
-			Scanner in = new Scanner(inputFile, "utf-8");
+			in = new Scanner(inputFile, "utf-8");
 			text = in.useDelimiter("\\Z").next();
 
-			in.close(); 	
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} finally {
+			in.close();
 		}
 		return text;
 	}
@@ -152,6 +155,19 @@ public class WatsonAnalyzer {
 		return watsonEntities;
 	}
 	
+	/**
+	 * Reorganizes WatsonEntities as a string
+	 * @return watsonEntitiesString a list of Watson Entities as a string
+	 */
+	public List<String> getWatsonEntitiesString() {
+		watsonEntitiesString = new ArrayList<>();
+		
+		for (int i=0; i<watsonEntities.size(); i++) {
+			watsonEntitiesString.add(watsonEntities.get(i).toString());
+		}
+		
+		return watsonEntitiesString;
+	}
 	
 	// TODO: DEFAULT LIMIT OR ALLOW USER TO SET LIMIT?
 	/**
