@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -35,7 +36,7 @@ public class NLPController implements Initializable {
 	private Text currentBook;
 	// to select a new book
 	
-	@FXML LineChart<String, Number> lineChart;
+	@FXML LineChart<Integer, Double> lineChart;
 	
 	
 	@Override
@@ -60,5 +61,15 @@ public class NLPController implements Initializable {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.initOwner(selectBook.getScene().getWindow());
 		stage.showAndWait();
+	}
+	
+	public void populateGraph(BookDummy book) {
+		XYChart.Series<Integer, Double> series = new XYChart.Series<>();
+		
+		series.getData().add(new XYChart.Data<Integer, Double>(1, book.getAnger(0)));
+		series.getData().add(new XYChart.Data<Integer, Double>(2, book.getAnger(1)));
+		series.getData().add(new XYChart.Data<Integer, Double>(3, book.getAnger(2)));
+		
+		lineChart.getData().add(series);
 	}
 }

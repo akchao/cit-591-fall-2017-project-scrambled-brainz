@@ -46,6 +46,9 @@ public class BookSelectController implements Initializable {
 		
 		Stage stage = (Stage) selectBook2.getScene().getWindow();
 	    stage.close();
+	    System.out.println(bd);
+	    NLPController nlp = new NLPController();
+	    nlp.populateGraph(titleToBook.get(bd));
 
 		return titleToBook.get(bd);
 	}
