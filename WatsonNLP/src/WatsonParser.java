@@ -1,5 +1,16 @@
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.json.*; 
+import javax.json.Json;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesResult;
+
 
 /**
  * Parses the Watson JSON responses for analysis
@@ -19,6 +30,7 @@ public class WatsonParser {
 	private double sadnessScore;
 	private double sentimentScore;
 
+	
 	/**
 	 * Constructs Watson response parser
 	 */
@@ -26,6 +38,12 @@ public class WatsonParser {
 //		WatsonAnalyzer wa = new WatsonAnalyzer();
 //		AnalysisResults watsonResponse = wa.getWatsonResponse();
 //		List<EntitiesResult> watsonEntities = wa.getWatsonEntities();
+//		removeNonPerson(watsonEntities);
+	}
+	
+	
+	public void removeNonPerson(List<EntitiesResult> watsonResponse) {
+		
 	}
 	
 	/**
@@ -55,6 +73,122 @@ public class WatsonParser {
 			sentimentScore = sentiment.get("score").getAsDouble();
 		} 
 	}
+	
+	public void buildCharacterProfile() {
+		Map<String, Object> config = new HashMap<String, Object>();
+	//	config.put("javax.json.stream.JsonGenerator.prettyPrinting", Boolean.valueOf(true));
+        
+		 JsonBuilderFactory factory = Json.createBuilderFactory(config);
+		 javax.json.JsonObject value = factory.createObjectBuilder()
+		     .add("firstName", "John")
+		     .add("lastName", "Smith")
+		     .add("age", 25)
+		     .add("address", factory.createObjectBuilder()
+		         .add("streetAddress", "21 2nd Street")
+		         .add("city", "New York")
+		         .add("state", "NY")
+		         .add("postalCode", "10021"))
+		     .add("phoneNumber", factory.createArrayBuilder()
+		         .add(factory.createObjectBuilder()
+		             .add("type", "home")
+		             .add("number", "212 555-1234"))
+		         .add(factory.createObjectBuilder()
+		             .add("type", "fax")
+		             .add("number", "646 555-4567")))
+		     .build();
+			
+		 JsonWriterFactory factory2 = Json.createWriterFactory(value);
+
+		 int spacesToIndentEachLevel = 2;
+		 try {
+			new JSONObject(value).toString(spacesToIndentEachLevel);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		 System.out.println(factory);
+	}
+	
+	/*
+	book {
+	{ characters [
+		character 1  {
+			emotions [
+				emotion1,
+				emotion2,
+			]
+		}
+		character 2 {
+			emotions [
+				emotion1,
+				emotion2,
+			]
+		}
+	]
+	}
+	}
+	
+	"{\n" + 
+		"  \"type\": \"Person\",\n" + 
+		"  \"relevance\": 0.880592,\n" + 
+		"  \"count\": 70,\n" + 
+		"  \"text\": \"Elizabeth Bennet\",\n" + 
+		"  \"emotion\": {\n" + 
+		"    \"anger\": 0.078232,\n" + 
+		"    \"disgust\": 0.026196,\n" + 
+		"    \"fear\": 0.116198,\n" + 
+		"    \"joy\": 0.244804,\n" + 
+		"    \"sadness\": 0.112424\n" + 
+		"  },\n" + 
+		"  \"sentiment\": {\n" + 
+		"    \"score\": 0.0\n" + 
+		"  }\n" + 
+		"}";
+		
+	*/
+	
+	/*
+	
+	{
+	     "firstName": "John", "lastName": "Smith", "age": 25,
+	     "address" : {
+	         "streetAddress": "21 2nd Street",
+	         "city": "New York",
+	         "state": "NY",
+	         "postalCode": "10021"
+	     },
+	     "phoneNumber": [
+	         { "type": "home", "number": "212 555-1234" },
+	         { "type": "fax", "number": "646 555-4567" }
+	     ]
+	 }
+	 
+	 
+	The code to create the object shown above is the following:
+
+	 
+	 JsonBuilderFactory factory = Json.createBuilderFactory(config);
+	 JsonObject value = factory.createObjectBuilder()
+	     .add("firstName", "John")
+	     .add("lastName", "Smith")
+	     .add("age", 25)
+	     .add("address", factory.createObjectBuilder()
+	         .add("streetAddress", "21 2nd Street")
+	         .add("city", "New York")
+	         .add("state", "NY")
+	         .add("postalCode", "10021"))
+	     .add("phoneNumber", factory.createArrayBuilder()
+	         .add(factory.createObjectBuilder()
+	             .add("type", "home")
+	             .add("number", "212 555-1234"))
+	         .add(factory.createObjectBuilder()
+	             .add("type", "fax")
+	             .add("number", "646 555-4567")))
+	     .build();
+	 
+	 
+	This class does not allow null to be used as a name or value while building the JSON object
+	
+	*/
 	
 	/**
 	 * @return the type
