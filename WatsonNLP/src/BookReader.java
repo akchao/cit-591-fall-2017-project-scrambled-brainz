@@ -41,12 +41,13 @@ public class BookReader {
 		
 		for (String url : urls) {
 			Book book = new Book(url);
-			book.storeData();
-			System.out.println(++index);
-			if (book.hasData()) {
-				System.out.println("\t" + ++booksWithData);
-				books.add(book);
-			}
+			books.add(book);
+//			book.storeData();
+//			System.out.println(++index);
+//			if (book.hasData()) {
+//				System.out.println("\t" + ++booksWithData);
+//				books.add(book);
+//			}
 		}
 	}
 			

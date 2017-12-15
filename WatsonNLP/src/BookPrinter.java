@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 public class BookPrinter {
 
+	int index = 0;
+	int bookCount = 0;
 	/**
 	 * constructor
 	 */
@@ -24,31 +26,33 @@ public class BookPrinter {
 		// store books in ArrayList
 		ArrayList<Book> books = new ArrayList<Book>(br.getBooks());
 		
-		// get data for each book
-		for (Book book : books) {
-			book.storeData();
-		}
+		PrintWriter out = null;
 		
 		try {
-			PrintWriter out = new PrintWriter("Book-Data.csv");
+			out = new PrintWriter("Book-Data.csv");
 			
 			// write header
 			out.println("Title,Author,Publication Date,Location,URL");
 			
 			// write each line
 			for (Book book : books) {
-				out.print(book.getTitle() + ",");
-				out.print(book.getAuthor() + ",");
-				out.print(book.getPubDate() + ",");
-				out.print(book.getLocation() + ",");
-				out.println(book.getUrl() + ",");				
+				System.out.println(++index);
+				book.storeData();
+				if (book.hasData()) {
+					out.print(book.getTitle() + ",");
+					out.print(book.getAuthor() + ",");
+					out.print(book.getPubDate() + ",");
+					out.print(book.getLocation() + ",");
+					out.println(book.getUrl() + ",");
+					out.flush();
+					System.out.println("\t" + ++bookCount);
+				}
 			}
-			
-			// close the buffer
-			out.close();		
-			
+						
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} finally {
+			out.close();
 		}
 	}
 	
