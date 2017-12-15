@@ -13,6 +13,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TreeItem;
 import javafx.scene.text.Text;
 
 public class NLPController implements Initializable {
@@ -76,15 +77,34 @@ public class NLPController implements Initializable {
 		comparedBook.setText("None");
 		
 		// dummy books to load into the bookList
-		BookDummy b1 = new BookDummy("Help!");
-		BookDummy b2 = new BookDummy("Abbey Road");	
+		BookDummy b1 = new BookDummy("Help!", "The Beatles");
+		BookDummy b2 = new BookDummy("Abbey Road", "The Beatles");
+		BookDummy b3 = new BookDummy("Let it Bleed", "The Rolling Stones");
+		BookDummy b4 = new BookDummy("Purple Rain", "Prince");
 		
 		titleToBook.put(b1.getTitle(), b1);
 		titleToBook.put(b2.getTitle(), b2);
+		titleToBook.put(b3.getTitle(), b3);
+		titleToBook.put(b4.getTitle(), b4);
 		
+		
+		
+		
+		// Look at regarding tree view for author & genre
+		// https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TreeView.html
+		//
+				
 		// have all books loaded into the list
-		list = FXCollections.observableArrayList(b1.getTitle(), b2.getTitle());
+		list = FXCollections.observableArrayList(titleToBook.keySet());
 		bookList.setItems(list);
+		
+		// set up the different tree views:
+		// by author:
+						
+		// by genre
+		
+		// by year
+		
 		
 		// have check-boxes preset to be checked
 		sadCheck.fire();
@@ -132,6 +152,8 @@ public class NLPController implements Initializable {
     		XYChart.Series<String, Double> joy = new XYChart.Series<>();
 
     		// plot series data
+    		
+    		//anger
     		anger.getData().add(new XYChart.Data<String, Double>("1", book.getAnger(0)));
     		anger.getData().add(new XYChart.Data<String, Double>("2", book.getAnger(1)));
     		anger.getData().add(new XYChart.Data<String, Double>("3", book.getAnger(2)));
@@ -140,6 +162,7 @@ public class NLPController implements Initializable {
     			lineChart.getData().add(anger);
     		}
     		
+    		// joy
     		joy.getData().add(new XYChart.Data<String, Double>("1", book.getJoy(0)));
     		joy.getData().add(new XYChart.Data<String, Double>("2", book.getJoy(1)));
     		joy.getData().add(new XYChart.Data<String, Double>("3", book.getJoy(2)));
@@ -148,6 +171,7 @@ public class NLPController implements Initializable {
     			lineChart.getData().add(joy);
     		}		
     		
+    		// disgust
     		disgust.getData().add(new XYChart.Data<String, Double>("1", book.getDisgust(0)));
     		disgust.getData().add(new XYChart.Data<String, Double>("2", book.getDisgust(1)));
     		disgust.getData().add(new XYChart.Data<String, Double>("3", book.getDisgust(2)));
@@ -156,6 +180,7 @@ public class NLPController implements Initializable {
     			lineChart.getData().add(disgust);
     		}
     		
+    		// sadness
     		sadness.getData().add(new XYChart.Data<String, Double>("1", book.getSadness(0)));
     		sadness.getData().add(new XYChart.Data<String, Double>("2", book.getSadness(1)));
     		sadness.getData().add(new XYChart.Data<String, Double>("3", book.getSadness(2)));

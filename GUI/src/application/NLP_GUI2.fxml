@@ -74,11 +74,6 @@
                   </TabPane>
                   <Button fx:id="selectBook" mnemonicParsing="false" onAction="#generateGraph" text="Select Book" />
                   <Region prefHeight="15.0" prefWidth="233.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Analysis Parameters:" wrappingWidth="124.4296875" />
-                  <CheckBox mnemonicParsing="false" text="Characters" />
-                  <CheckBox mnemonicParsing="false" text="Plot" />
-                  <CheckBox mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox mnemonicParsing="false" text="CheckBox" />
                   <Region prefHeight="33.0" prefWidth="125.0" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>

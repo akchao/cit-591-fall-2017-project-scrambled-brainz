@@ -17,7 +17,7 @@ public class BookDummy {
 	private ArrayList<HashMap<String, Double>> emotions = new ArrayList<HashMap<String, Double>>();
 	
 	
-	public BookDummy(String title) {
+	public BookDummy(String title, String author) {
 		this.title = title;
 		
 		String emotions[] = { "joy", "disgust", "anger", "sadness", "fear" };

@@ -15,8 +15,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("NLP_GUI.fxml"));
-			Scene scene = new Scene(root,1094,700);
+			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("NLP_GUI2.fxml"));
+			Scene scene = new Scene(root,1094,750);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();			
