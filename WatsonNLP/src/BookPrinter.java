@@ -33,7 +33,7 @@ public class BookPrinter {
 			PrintWriter out = new PrintWriter("Book-Data.csv");
 			
 			// write header
-			out.println("Title,Author,Publication Date,Location,Genre,URL");
+			out.println("Title,Author,Publication Date,Location,URL");
 			
 			// write each line
 			for (Book book : books) {
@@ -41,8 +41,7 @@ public class BookPrinter {
 				out.print(book.getAuthor() + ",");
 				out.print(book.getPubDate() + ",");
 				out.print(book.getLocation() + ",");
-				out.print(book.getGenre() + ",");
-				out.println(book.getUrl() + "\n");				
+				out.println(book.getUrl() + ",");				
 			}
 			
 			// close the buffer

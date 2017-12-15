@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,6 +21,17 @@ public class Tester {
 		BookPrinter bp = new BookPrinter();
 		
 		bp.printBooks();
+		
+		
+//		Pattern p = Pattern.compile("([0-9]{4})");
+//		Matcher m = p.matcher("Publication date 28 October 1726 (291 years ago) (1726-10-28)");
+//		
+//		m.find();
+//		
+//		System.out.println(m.group(0));
+//		
+		
+		
 		
 //		BookReader br = new BookReader();
 //		

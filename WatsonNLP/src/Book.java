@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,19 +20,19 @@ import org.jsoup.select.Elements;
 public class Book {
 
 	private String url;
-	private ArrayList<String> keywords;
-	private String tone;
-	private String mood;
 	private String author;
 	private String title;
 	private String pubDate;
 	private String location;
+	private double[] anger = new double[5];
+	private double[] joy = new double[5];
+	private double[] disgust = new double[5];
+	private double[] sadness = new double[5];
+	private double[] fear = new double[5];
 	
 	// indicator to assess whether book has
 	// Wikipedia data or not
 	private Boolean hasData;
-	private ArrayList<String> genre = new ArrayList<String>();
-	
 	
 	public Book(String url) {
 		this.url = url;
@@ -55,23 +57,19 @@ public class Book {
 				String s = datum;
 				if (s.contains("Author")) {
 					author = s.replaceAll("Author ", "");
+					author = author.replaceAll(",", "");
 				} else if (s.contains("Country")) {
 					location = s.replaceAll("Country ", "");
-				} else if (s.contains("Genre")) {
-					String genreTemp = s.replaceAll("Genre ", "");
-					if (genreTemp.contains(",")) {
-						String[] gt = genreTemp.split(", ");
-						for (String g : gt) {
-							genre.add(g);
-						}
-					} else {
-						genre.add(genreTemp);
-					}
+					location = location.replaceAll(",", "");
 				} else if (s.contains("Publi")) {
-					pubDate = s.replaceAll("[pP]ublication [dD]ate ", "");
-					pubDate = s.replaceAll("Published ", "");
+					Pattern p = Pattern.compile("([0-9]{4})");
+					Matcher m = p.matcher(s);
+					if (m.find()) {
+						pubDate = m.group(0);
+					}
 				} else if (s.contains("Title")) {
 					title = s.replace("Title ", "");
+					title = title.replaceAll(",", "");
 				}
 			}
 		}
@@ -265,25 +263,6 @@ public class Book {
 	 * 
 	 * @return keywords
 	 */
-	public ArrayList<String> getKeywords() {
-		return keywords;
-	}
-
-	/**
-	 * 
-	 * @return tone
-	 */
-	public String getTone() {
-		return tone;
-	}
-
-	/**
-	 * 
-	 * @return mood
-	 */
-	public String getMood() {
-		return mood;
-	}
 
 	/**
 	 * 
@@ -323,13 +302,5 @@ public class Book {
 	 */
 	public Boolean hasData() {
 		return hasData;
-	}
-
-	/**
-	 * 
-	 * @return genre
-	 */
-	public ArrayList<String> getGenre() {
-		return genre;
 	}
 }
