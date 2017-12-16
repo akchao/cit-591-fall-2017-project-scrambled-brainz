@@ -11,74 +11,87 @@ import java.util.ArrayList;
  */
 public class BookDataPrinter {
 
-		int index = 0;
-		int bookCount = 0;
-		/**
-		 * constructor
-		 */
-		public BookDataPrinter() {
-		}
-		
-		/**
-		 * method to print books to .csv file
-		 */
-		public void printBooks() {
-			BookReader br = new BookReader();
-			
-			// store books in ArrayList
-			ArrayList<BookMetaData> books = new ArrayList<BookMetaData>(br.getBooks());
-						
-			PrintWriter out = null;
-			
-			try {
-				out = new PrintWriter("Book-Data.csv");
+	int index = 0;
+	int bookCount = 0;
+	/**
+	 * constructor
+	 */
+	public BookDataPrinter() {
+	}
 
-				
-				// write header
-				out.println("Title,Author,Publication Date,Location,URL,"
-						+ "Anger[0],Anger[1],Anger[2],Anger[3],Anger[4],"
-						+ "Disgust[0],Disgust[1],Disgust[2],Disgust[3],Disgust[4],"
-						+ "Fear[0],Fear[1],Fear[2],Fear[3],Fear[4],"
-						+ "Joy[0],Joy[1],Joy[2],Joy[3],Joy[4],"
-						+ "Sadness[0],Sadness[1],Sadness[2],Sadness[3],Sadness[4]");
-				
-				// write each line
-				for (BookMetaData book : books) {
-					System.out.println(++index);
-					
-					//title,author,pubdate, URL
-					book.storeData();
-					
-					if (book.hasData()) {
-						out.print(book.getTitle() + ",");
-						out.print(book.getAuthor() + ",");
-						out.print(book.getPubDate() + ",");
-						out.print(book.getLocation() + ",");
-						out.println(book.getUrl() + ",");
-						
-						//emotion data
-						BookEmotionData emotionData = new BookEmotionData(book.getUrl());
-				
-						for (int i=0; i<5; i++) {
-							out.println(emotionData.getAnger().get(i));
-							out.println(emotionData.getDisgust().get(i));
-							out.println(emotionData.getFear().get(i));
-							out.println(emotionData.getJoy().get(i));
-							out.println(emotionData.getSadness().get(i));
-						}
-						
-						out.flush();
-						System.out.println("\t" + ++bookCount);
+	/**
+	 * method to print books to .csv file
+	 */
+	public void printBooks() {
+		BookReader br = new BookReader();
+
+		// store books in ArrayList
+		ArrayList<BookMetaData> books = new ArrayList<BookMetaData>(br.getBooks());
+
+		PrintWriter out = null;
+
+		try {
+			out = new PrintWriter("Book-Data.csv");
+
+
+			// write header
+			out.println("Title,Author,Publication Date,Location,URL,"
+					+ "Anger[0],Anger[1],Anger[2],Anger[3],Anger[4],"
+					+ "Disgust[0],Disgust[1],Disgust[2],Disgust[3],Disgust[4],"
+					+ "Fear[0],Fear[1],Fear[2],Fear[3],Fear[4],"
+					+ "Joy[0],Joy[1],Joy[2],Joy[3],Joy[4],"
+					+ "Sadness[0],Sadness[1],Sadness[2],Sadness[3],Sadness[4]");
+
+			// write each line
+			for (BookMetaData book : books) {
+				System.out.println(++index);
+
+				//title,author,pubdate, URL
+				book.storeData();
+
+				if (book.hasData()) {
+					out.print(book.getTitle() + ",");
+					out.print(book.getAuthor() + ",");
+					out.print(book.getPubDate() + ",");
+					out.print(book.getLocation() + ",");
+					out.println(book.getUrl() + ",");
+
+					//emotion data
+					BookEmotionData emotionData = new BookEmotionData(book.getUrl());
+
+					for (int i=0; i<5; i++) {
+						out.println(emotionData.getAnger().get(i) + ",");
 					}
+
+					for (int i=0; i<5; i++) {
+						out.println(emotionData.getDisgust().get(i) + ",");
+					}
+
+					for (int i=0; i<5; i++) {
+						out.println(emotionData.getFear().get(i) + ",");
+					}
+
+					for (int i=0; i<5; i++) {
+						out.println(emotionData.getJoy().get(i) + ",");
+					}
+
+					for (int i=0; i<5; i++) {
+						out.println(emotionData.getSadness().get(i) + ",");
+					}
+					
+					
+					out.flush();
+					System.out.println("\t" + ++bookCount);
 				}
-							
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} finally {
-				out.close();
 			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			out.close();
 		}
-		
-		
-		
+	}
+
+
+
 }
