@@ -42,6 +42,29 @@ public class WatsonParser {
 	}
 	
 	
+/*	
+	{
+		  "language": "en",
+		  "usage": {
+		    "features": 1
+		  },
+		  "emotion": {
+		    "document": {
+		      "emotion": {
+		        "anger": 0.144436,
+		        "disgust": 0.074289,
+		        "fear": 0.130087,
+		        "joy": 0.599415,
+		        "sadness": 0.519859
+		      }
+		    }
+		  }
+	}
+*/
+	
+	
+	
+	
 	public void removeNonPerson(List<String> watsonResponse) {
 		
 		for (int i=0; i<watsonResponse.size(); i++) {
@@ -69,7 +92,7 @@ public class WatsonParser {
 				.getAsJsonObject();
 		
 		// check if type is "Person" otherwise do nothing
-		type = entityResponse.get("type").getAsString();
+		type = entityResponse.get("type").getAsString().trim();
 		if (type.equals("Person")) {
 			
 			name = entityResponse.get("text").getAsString();
@@ -88,7 +111,7 @@ public class WatsonParser {
 		} 
 	}
 	
-	public void buildCharacterProfile() {
+	public javax.json.JsonObject buildCharacterProfile() {
 		Map<String, Object> config = new HashMap<String, Object>();
         
 		 JsonBuilderFactory factory = Json.createBuilderFactory(config);
@@ -114,7 +137,8 @@ public class WatsonParser {
 //		} catch (JSONException e) {
 //			e.printStackTrace();
 //		}
-//		 System.out.println(factory);
+		 System.out.println(factory);
+		 return value;
 	}
 	
 	/*

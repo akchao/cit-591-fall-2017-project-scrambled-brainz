@@ -42,15 +42,16 @@ public class WatsonAnalyzer {
 				  NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
 				  Secret.username, Secret.password);
 		
-		if (bookNameOrUrl.contains("http://")) {
-			runURLEntitiesEmotion(bookNameOrUrl);
-		} else if (bookNameOrUrl.contains(".txt")) {
+//		if (bookNameOrUrl.contains("http://")) {
+//			runURLEntitiesEmotion(bookNameOrUrl);
+//		} else 
+//			if (bookNameOrUrl.contains(".txt")) {
 			text = fileReader(bookNameOrUrl);
-//			fileReader("pride-prejudice.txt");	// instead pass in book to constructor
-			runEntitiesEmotion(text);
-		} else {									// pass the entire book as a string
-			runEntitiesEmotion(bookNameOrUrl);
-		}
+//			runEntitiesEmotion(text);
+			runWatsonDocEmotion(text);
+//		} else {									// pass the entire book as a string
+//			runEntitiesEmotion(bookNameOrUrl);
+//		}
 
 	}
 	
@@ -151,7 +152,7 @@ public class WatsonAnalyzer {
 	/**
 	 * @return the watsonEntities
 	 */
-	public List<EntitiesResult> getWatsonEntities() {
+	public List<EntitiesResult> getWatsonEntities() {	
 		return watsonEntities;
 	}
 	
@@ -169,18 +170,39 @@ public class WatsonAnalyzer {
 		return watsonEntitiesString;
 	}
 	
-	// TODO: DEFAULT LIMIT OR ALLOW USER TO SET LIMIT?
+	
+	
+public void runWatsonDocEmotion(String book) {
+
+		EmotionOptions emotion = new EmotionOptions.Builder()
+				.document(true)
+				.build();
+		
+		Features features = new Features.Builder()
+				.emotion(emotion)
+				.build();
+
+		AnalyzeOptions parameters = new AnalyzeOptions.Builder()
+				.text(book)
+				.features(features)
+				.build();
+
+		response = service
+				.analyze(parameters)
+				.execute();
+
+	}		
+	
+	
 	/**
 	 * This runs majority of Watson's features
 	 * @param book the book as a string
 	 */
 	public void runAllWatsonFeatures(String book) {
 		
-		// not possible to customize entity to find "Person" type
-		// running max limit 250 and will find "Person" type in WatsonParser
 		EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
 				.emotion(true)
-				.sentiment(true)		// might not need this
+				.sentiment(true)		
 				.limit(50) 			// 250 max limit
 				.build();
 		
@@ -203,6 +225,7 @@ public class WatsonAnalyzer {
 
 		EmotionOptions emotion = new EmotionOptions.Builder()
 				.targets(targets)
+				.document(true)
 				.build();
 		
 		// RELATIONS GOES THROUGH COMPLETE RELATIONS LIST TO FIND RELATIONSHIPS WITHIN TEXT
@@ -212,11 +235,11 @@ public class WatsonAnalyzer {
 
 		Features features = new Features.Builder()
 				.entities(entitiesOptions)
-//				.concepts(concepts)
-//				.categories(categories)
-//				.keywords(keywordsOptions)
-//				.emotion(emotion)
-//				.relations(relations)
+				.concepts(concepts)
+				.categories(categories)
+				.keywords(keywordsOptions)
+				.emotion(emotion)
+				.relations(relations)
 				.build();
 
 		AnalyzeOptions parameters = new AnalyzeOptions.Builder()

@@ -73,38 +73,12 @@ public class WatsonParserTest {
 	}
 	 
 	
-	@Test 
-	public void testParseEntityNonPersonIsNotAPerson() {
-		
-		wp.parsePersonEntity(sampleEntityNonPerson);
-		assertNotSame("WatsonParser incorrectly identified a non-person "
-				+ "entity as a person","Person",wp.getType());
-		fail("WatsonParser incorrectly identified a non-person entity as a person");
-	} 
-	
-	
 	@Test
 	public void testParseRemoveNonPerson( ) {
 		wp.removeNonPerson(sample);
 		assertEquals(sampleEntityPerson,sample.get(0));
 	}
 	 
-	
-	@Test 
-	public void testNoBlankResponses() {
-		wp.parsePersonEntity(sampleEntityPerson);
-		assertNotNull(wp.getName());
-		assertNotNull(wp.getRelevance());
-		assertNotNull(wp.getCount());
-		assertNotNull(wp.getAngerScore());
-		assertNotNull(wp.getDisgustScore());
-		assertNotNull(wp.getFearScore());
-		assertNotNull(wp.getJoyScore());
-		assertNotNull(wp.getSadnessScore());
-		assertNotNull(wp.getSentimentScore());	
-		fail("Watson response had blanks");
-	}
-	
 	
 	@Test
 	public void testParseEntityForName() {
@@ -116,42 +90,42 @@ public class WatsonParserTest {
 	@Test
 	public void testParseEntityForRelevance() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertSame(0.880592,wp.getRelevance());
+		assertEquals(0.880592,wp.getRelevance(),0.000000);
 	}
 
 	
 	@Test
 	public void testParseEntityForCount() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertSame(70,wp.getCount());
+		assertEquals(70,wp.getCount());
 	}
 	
 	
 	@Test
 	public void testParseEntityForAngerScore() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertSame(0.078232,wp.getAngerScore());
+		assertEquals(0.078232,wp.getAngerScore(),0.000000);
 	}
 	
 
 	@Test
 	public void testParseEntityForDisgustScore() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertSame(0.026196,wp.getDisgustScore());	
+		assertEquals(0.026196,wp.getDisgustScore(),0.000000);	
 	}
 
 	
 	@Test
 	public void testParseEntityForFearScore() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertSame(0.116198,wp.getFearScore());
+		assertEquals(0.116198,wp.getFearScore(),0.000000);
 	}
 	
 	
 	@Test
 	public void testParseEntityForJoyScore() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertSame(0.244804,wp.getJoyScore());
+		assertEquals(0.244804,wp.getJoyScore(),0.000000);
 		
 	}
 	
@@ -159,14 +133,14 @@ public class WatsonParserTest {
 	@Test
 	public void testParseEntityForSadnessScore() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertSame(0.112424,wp.getSadnessScore());
+		assertEquals(0.112424,wp.getSadnessScore(),0.000000);
 	}
 	
 	
 	@Test
 	public void testParseEntityForSentimentScore() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertSame(0.0,wp.getSentimentScore());
+		assertEquals(0.0,wp.getSentimentScore(),0.0);
 	}
 	
 }
