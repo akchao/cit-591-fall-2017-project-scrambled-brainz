@@ -3,9 +3,11 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EmotionResult;
 
 /**
- * Tester class for WatsonAnalyzer and WatsonParser
+ * Tester class for BookSplitter, WatsonAnalyzer, and WatsonParser 
  * @author Alice
  *
  */
@@ -13,26 +15,60 @@ public class WatsonTester {
 
 	public static void main(String[] args) {
 
-		String textName = "pride-prejudice.txt";
-		WatsonAnalyzer wa = new WatsonAnalyzer(textName);
+//		String textName = "pride-prejudice.txt";
+//		WatsonAnalyzer wa = new WatsonAnalyzer(textName);
 		
 //		WatsonParser wp = new WatsonParser(); 
 //		String textToParse = wa.getWatsonEntities().get(0).toString();
 //		wp.parsePersonEntity(textToParse);
-		System.out.println(wa.getWatsonResponse());
+//		System.out.println(wa.getWatsonResponse());
+		
+		
+//////	TESTING OUT watson parsing whole document 
+//		WatsonAnalyzer wa1 = new WatsonAnalyzer("pride-prejudice-1.txt");
+//		String ch1 = wa1.getWatsonResponse().getEmotion().toString();
+		
+//		System.out.println(ch1);
+	//	WatsonAnalyzer wa2 = new WatsonAnalyzer("pride-prejudice-2.txt");
+	//	System.out.println(wa2.getWatsonResponse());
+	//	WatsonAnalyzer wa3 = new WatsonAnalyzer("pride-prejudice-3.txt");
+	//	System.out.println(wa3.getWatsonResponse());
+
+		
+		String emotionTester = "{\n" + 
+				"  \"document\": {\n" + 
+				"    \"emotion\": {\n" + 
+				"      \"anger\": 0.144436,\n" + 
+				"      \"disgust\": 0.074289,\n" + 
+				"      \"fear\": 0.130087,\n" + 
+				"      \"joy\": 0.599415,\n" + 
+				"      \"sadness\": 0.519859\n" + 
+				"    }\n" + 
+				"  }\n" + 
+				"}";
+		
+		WatsonParser wp = new WatsonParser();
+		wp.parseDocEmotion(emotionTester);
+		System.out.println(wp.getAngerScore());
+		System.out.println(wp.getDisgustScore());
+		System.out.println(wp.getFearScore());
+		System.out.println(wp.getJoyScore());
+		System.out.println(wp.getSadnessScore());
+
 		
 		/*
 		String url = "http://www.loyalbooks.com/download/text/King-Solomons-Mines-by-Haggard.txt";
-		BookSplitter bs = new BookSplitter(url);
+		BookSplitter split = new BookSplitter(url);
 		
-		String[] bookSegments = bs.getBookSegments();
+		String[] bookSegments = split.getBookSegments();
+		
 		for (String s : bookSegments) {
 			WatsonAnalyzer wa = new WatsonAnalyzer(s);
-			List<String> entities = wa.getWatsonEntitiesString();
+			String emotion = wa.getWatsonDocEmotion();
 			
 			WatsonParser wp = new WatsonParser();
-			wp.removeNonPerson(entities);
-			wp.parsePersonEntity(entities.get(0));
+			wp.parseDocEmotion(emotion);
+			System.out.println(wp.getAngerScore());
 		}
 		*/
 		

@@ -17,6 +17,7 @@ public class WatsonParserTest {
 	WatsonParser wp;
 	String sampleEntityPerson;
 	String sampleEntityNonPerson;
+	String sampleDocumentEmotion;
 	List<String> sample;
 	
 	@Before
@@ -57,6 +58,19 @@ public class WatsonParserTest {
 				"  }\n" + 
 				"}";
 		
+		sampleDocumentEmotion = "{\n" + 
+				"  \"document\": {\n" + 
+				"    \"emotion\": {\n" + 
+				"      \"anger\": 0.144436,\n" + 
+				"      \"disgust\": 0.074289,\n" + 
+				"      \"fear\": 0.130087,\n" + 
+				"      \"joy\": 0.599415,\n" + 
+				"      \"sadness\": 0.519859\n" + 
+				"    }\n" + 
+				"  }\n" + 
+				"}";
+		
+		
 		//List<EntitiesResult> sample = new ArrayList<>();
 		sample = new ArrayList<>();
 		sample.add(sampleEntityPerson);
@@ -68,7 +82,7 @@ public class WatsonParserTest {
 	public void testParseEntityIsAPerson() {
 		
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertEquals("Person",wp.getType());	
+		assertEquals("Person",wp.getEntityType());	
 		fail("WatsonParser could not identify a Person entity type");
 	}
 	 
@@ -83,21 +97,21 @@ public class WatsonParserTest {
 	@Test
 	public void testParseEntityForName() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertEquals("Elizabeth Bennet",wp.getName());
+		assertEquals("Elizabeth Bennet",wp.getEntityName());
 	}
 	
 	
 	@Test
 	public void testParseEntityForRelevance() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertEquals(0.880592,wp.getRelevance(),0.000000);
+		assertEquals(0.880592,wp.getEntityRelevance(),0.000000);
 	}
 
 	
 	@Test
 	public void testParseEntityForCount() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertEquals(70,wp.getCount());
+		assertEquals(70,wp.getEntityCount());
 	}
 	
 	
@@ -140,7 +154,7 @@ public class WatsonParserTest {
 	@Test
 	public void testParseEntityForSentimentScore() {
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertEquals(0.0,wp.getSentimentScore(),0.0);
+		assertEquals(0.0,wp.getEntitySentimentScore(),0.0);
 	}
 	
 }

@@ -14,6 +14,7 @@ public class BookSplitter {
 	private ArrayList<String> bookLines;
 	private String[] bookSegments;
 
+	
 	/**
 	 * Constructs the book splitter, which divides up a book into sections
 	 * @param url the book's url
@@ -22,16 +23,17 @@ public class BookSplitter {
 		bookLines = new ArrayList<>();
 		bookSegments = new String[5];
 		if (!url.equals(null)) {
-			readUrl(url);
+			getBookFromUrl(url);
 			segmentBook();
 		}
 
 	}
 
+	
 	/**
-	 * Method reads in a URL and returns the book lines in an arraylist
+	 * Method reads in a URL and stores the book lines into an arraylist
 	 */
-	public void readUrl(String link) {
+	private void getBookFromUrl(String link) {
 		URL url;
 		String inputLine;
 		try {
@@ -42,7 +44,7 @@ public class BookSplitter {
 			while ((inputLine = in.readLine()) != null) {
 				Pattern p = Pattern.compile(".+");
 				Matcher m = p.matcher(inputLine);
-				if (m.find()) {
+				if (m.find()) {								// to obtain only sentences with letters
 					bookLines.add(inputLine.trim());
 				} else {
 					continue;
@@ -61,7 +63,7 @@ public class BookSplitter {
 		}
 	}
 
-	public void segmentBook() {
+	private void segmentBook() {
 		int counter = (bookLines.size() / 5);
 		int count = 0;
 		
@@ -87,6 +89,7 @@ public class BookSplitter {
 		return bookLines;
 	}
 
+	
 	/**
 	 * @return the bookSegments
 	 */

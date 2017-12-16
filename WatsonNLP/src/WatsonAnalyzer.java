@@ -26,11 +26,11 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Re
 public class WatsonAnalyzer {
 	
 	private static NaturalLanguageUnderstanding service;
-	private static String text;
-	private static AnalysisResults response;
-	private static List<ConceptsResult> watsonConcepts;
-	private static List<EntitiesResult> watsonEntities;
-	private static List<String> watsonEntitiesString;
+	private String text;
+	private AnalysisResults response;
+	private List<EntitiesResult> watsonEntities;
+	private List<String> watsonEntitiesString;
+	private String watsonDocEmotion;
 	
 	
 	/**
@@ -42,16 +42,22 @@ public class WatsonAnalyzer {
 				  NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
 				  Secret.username, Secret.password);
 		
+		// THIS WILL EVENTUALLY JUST BE SIMPLIFIED TO TAKING IN BOOK AS A STRING
+		// URL AND .TXT PERMITTED FOR TESTING OUT WATSON FEATURES
+		
 //		if (bookNameOrUrl.contains("http://")) {
 //			runURLEntitiesEmotion(bookNameOrUrl);
 //		} else 
-//			if (bookNameOrUrl.contains(".txt")) {
+			if (bookNameOrUrl.contains(".txt")) {
 			text = fileReader(bookNameOrUrl);
+			if (text != null) {
 //			runEntitiesEmotion(text);
 			runWatsonDocEmotion(text);
-//		} else {									// pass the entire book as a string
+			}
+		} else {									// pass the entire book as a string
 //			runEntitiesEmotion(bookNameOrUrl);
-//		}
+			runWatsonDocEmotion(bookNameOrUrl);
+		}
 
 	}
 	
@@ -78,15 +84,46 @@ public class WatsonAnalyzer {
 	
 	/**
 	 * Runs a string through customized Watson NLU API
+	 * to obtain string's overall emotion 
+	 * @param book
+	 */
+	private void runWatsonDocEmotion(String book) {
+
+		EmotionOptions emotion = new EmotionOptions.Builder()
+				.document(true)
+				.build();
+		
+		Features features = new Features.Builder()
+				.emotion(emotion)
+				.build();
+
+		AnalyzeOptions parameters = new AnalyzeOptions.Builder()
+				.text(book)
+				.features(features)
+				.build();
+
+		response = service
+				.analyze(parameters)
+				.execute();
+		
+		watsonDocEmotion = response.getEmotion().toString();
+
+	}		
+	
+	
+	
+	/**
+	 * Runs a string through customized Watson NLU API
+	 * to obtain list of entities and their emotions and overall sentiment
 	 * @param book the book as a string
 	 */
-	public void runEntitiesEmotion(String book) {
+	private void runEntitiesEmotion(String book) {
 		
 		// not possible to customize entity to find "Person" type
 		// running max limit 250 and will find "Person" type in WatsonParser
 		EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
 				.emotion(true)
-				.sentiment(true)		// might not need this
+				.sentiment(true)		
 				.limit(250) 			// 250 max limit
 				.build();
 
@@ -103,16 +140,16 @@ public class WatsonAnalyzer {
 				.analyze(parameters)
 				.execute();
 		
-		watsonConcepts = response.getConcepts();
 		watsonEntities = response.getEntities();
 		
 	}		
 
+	
 	/**
 	 * Runs a book URL through customized Watson NLU API
 	 * @param url the book's URL
 	 */
-	public void runURLEntitiesEmotion(String url) {
+	private void runURLEntitiesEmotion(String url) {
 
 		// not possible to customize entity to find "Person" type
 		// running max limit 250 and will find "Person" type in WatsonParser
@@ -140,24 +177,9 @@ public class WatsonAnalyzer {
 	}	
 		
 
-
-	/**
-	 * @return the watsonResponse
-	 */
-	public AnalysisResults getWatsonResponse() {
-		return response;
-	}
-	
 	
 	/**
-	 * @return the watsonEntities
-	 */
-	public List<EntitiesResult> getWatsonEntities() {	
-		return watsonEntities;
-	}
-	
-	/**
-	 * Reorganizes WatsonEntities as a string
+	 * Stores WatsonEntities json data as a string into an arraylist
 	 * @return watsonEntitiesString a list of Watson Entities as a string
 	 */
 	public List<String> getWatsonEntitiesString() {
@@ -170,35 +192,22 @@ public class WatsonAnalyzer {
 		return watsonEntitiesString;
 	}
 	
-	
-	
-public void runWatsonDocEmotion(String book) {
 
-		EmotionOptions emotion = new EmotionOptions.Builder()
-				.document(true)
-				.build();
-		
-		Features features = new Features.Builder()
-				.emotion(emotion)
-				.build();
-
-		AnalyzeOptions parameters = new AnalyzeOptions.Builder()
-				.text(book)
-				.features(features)
-				.build();
-
-		response = service
-				.analyze(parameters)
-				.execute();
-
-	}		
 	
-	
+	/**
+	 * Stores Watson document emotion json data as a string 
+	 * @return the watsonDocEmotion document emotion json data as a string
+	 */
+	public String getWatsonDocEmotion() {
+		return watsonDocEmotion;
+	}
+
+
 	/**
 	 * This runs majority of Watson's features
 	 * @param book the book as a string
 	 */
-	public void runAllWatsonFeatures(String book) {
+	private void runAllWatsonFeatures(String book) {
 		
 		EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
 				.emotion(true)
@@ -251,8 +260,6 @@ public void runWatsonDocEmotion(String book) {
 				.analyze(parameters)
 				.execute();
 		
-		watsonConcepts = response.getConcepts();
-		watsonEntities = response.getEntities();
 		
 	}		
 	
