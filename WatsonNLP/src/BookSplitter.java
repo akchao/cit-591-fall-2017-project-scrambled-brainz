@@ -17,14 +17,15 @@ public class BookSplitter {
 	
 	/**
 	 * Constructs the book splitter, which divides up a book into sections
+	 * currently, number of sections is 5, but this could be changed
 	 * @param url the book's url
 	 */
 	public BookSplitter(String url) {
 		bookLines = new ArrayList<>();
-		bookSegments = new String[5];
+		
 		if (!url.equals(null)) {
 			getBookFromUrl(url);
-			segmentBook();
+			segmentBook(5);
 		}
 
 	}
@@ -63,8 +64,9 @@ public class BookSplitter {
 		}
 	}
 
-	private void segmentBook() {
-		int counter = (bookLines.size() / 5);
+	private void segmentBook(int numberOfSegments) {
+		bookSegments = new String[numberOfSegments];
+		int counter = (bookLines.size() / numberOfSegments);
 		int count = 0;
 		
 		String segment = "";
