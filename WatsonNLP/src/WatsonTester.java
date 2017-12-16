@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.JsonObject;
@@ -15,26 +16,31 @@ public class WatsonTester {
 
 	public static void main(String[] args) {
 
-//		String textName = "pride-prejudice.txt";
-//		WatsonAnalyzer wa = new WatsonAnalyzer(textName);
+////// 	TEST: watson analyze and parse entity
+/*
+		String textName = "pride-prejudice.txt";
+		WatsonAnalyzer wa = new WatsonAnalyzer(textName);
 		
-//		WatsonParser wp = new WatsonParser(); 
-//		String textToParse = wa.getWatsonEntities().get(0).toString();
-//		wp.parsePersonEntity(textToParse);
-//		System.out.println(wa.getWatsonResponse());
+		WatsonParser wp = new WatsonParser(); 
+		String textToParse = wa.getWatsonEntities().get(0).toString();
+		wp.parsePersonEntity(textToParse);
+		System.out.println(wa.getWatsonResponse());
+*/
 		
+//////	TEST: watson parsing whole document 
+/*
+		WatsonAnalyzer wa1 = new WatsonAnalyzer("pride-prejudice-1.txt");
+		String ch1 = wa1.getWatsonResponse().getEmotion().toString();
 		
-//////	TESTING OUT watson parsing whole document 
-//		WatsonAnalyzer wa1 = new WatsonAnalyzer("pride-prejudice-1.txt");
-//		String ch1 = wa1.getWatsonResponse().getEmotion().toString();
+		System.out.println(ch1);
+		WatsonAnalyzer wa2 = new WatsonAnalyzer("pride-prejudice-2.txt");
+		System.out.println(wa2.getWatsonResponse());
+		WatsonAnalyzer wa3 = new WatsonAnalyzer("pride-prejudice-3.txt");
+		System.out.println(wa3.getWatsonResponse());
+*/
 		
-//		System.out.println(ch1);
-	//	WatsonAnalyzer wa2 = new WatsonAnalyzer("pride-prejudice-2.txt");
-	//	System.out.println(wa2.getWatsonResponse());
-	//	WatsonAnalyzer wa3 = new WatsonAnalyzer("pride-prejudice-3.txt");
-	//	System.out.println(wa3.getWatsonResponse());
-
-		
+//////	TEST: watson parse emotion
+/*
 		String emotionTester = "{\n" + 
 				"  \"document\": {\n" + 
 				"    \"emotion\": {\n" + 
@@ -54,23 +60,60 @@ public class WatsonTester {
 		System.out.println(wp.getFearScore());
 		System.out.println(wp.getJoyScore());
 		System.out.println(wp.getSadnessScore());
-
+*/
 		
-		/*
+/////	TEST: BookSplitter -> WatsonAnalyzer -> WatsonParser
+/*		
 		String url = "http://www.loyalbooks.com/download/text/King-Solomons-Mines-by-Haggard.txt";
 		BookSplitter split = new BookSplitter(url);
-		
 		String[] bookSegments = split.getBookSegments();
+		
+		double[] anger = new double[5];
+		double[] disgust = new double[5];
+		double[] fear = new double[5];
+		double[] joy = new double[5];
+		double[] sadness = new double[5];
+		
+		int index = 0;
 		
 		for (String s : bookSegments) {
 			WatsonAnalyzer wa = new WatsonAnalyzer(s);
 			String emotion = wa.getWatsonDocEmotion();
-			
+
 			WatsonParser wp = new WatsonParser();
 			wp.parseDocEmotion(emotion);
-			System.out.println(wp.getAngerScore());
+			anger[index] = wp.getAngerScore();
+			disgust[index] = wp.getDisgustScore();
+			fear[index] = wp.getFearScore();
+			joy[index] = wp.getJoyScore();
+			sadness[index] = wp.getSadnessScore();
+
+			index++;
 		}
-		*/
+		
+		System.out.println("anger" + Arrays.toString(anger));
+		System.out.println("disgust" + Arrays.toString(disgust));
+		System.out.println("fear" + Arrays.toString(fear));
+		System.out.println("joy" + Arrays.toString(joy));
+		System.out.println("sadness" + Arrays.toString(sadness));
+*/
+
+/////	TEST: BookEmotionData = (BookSplitter -> WatsonAnalyzer -> WatsonParser)	
+		String url = "http://www.loyalbooks.com/download/text/King-Solomons-Mines-by-Haggard.txt";
+		BookEmotionData bookData = new BookEmotionData(url);
+		System.out.println("anger: " + Arrays.toString(bookData.getAnger()));
+		System.out.println("disgust: " + Arrays.toString(bookData.getDisgust()));
+		System.out.println("fear: " + Arrays.toString(bookData.getFear()));
+		System.out.println("joy: " + Arrays.toString(bookData.getJoy()));
+		System.out.println("sadness: " + Arrays.toString(bookData.getSadness()));
+		
+		//response:
+		//anger: [0.111292, 0.131232, 0.115586, 0.141064, 0.11936]
+		//disgust: [0.075014, 0.12144, 0.519952, 0.141819, 0.143354]
+		//fear: [0.09306, 0.122896, 0.145105, 0.171134, 0.444784]
+		//joy: [0.603973, 0.576895, 0.586473, 0.539747, 0.57395]
+		//sadness: [0.547961, 0.581861, 0.535293, 0.577122, 0.490002]
+		
 		
 //		System.out.println(bs.getBook());
 //		System.out.println(bs.getBookLines());
