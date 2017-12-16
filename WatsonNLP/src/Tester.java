@@ -18,10 +18,16 @@ public class Tester {
 
 	public static void main(String[] args) {
 
-		BookPrinter bp = new BookPrinter();
+//		BookPrinter bp = new BookPrinter();
+//		
+//		bp.printBooks();
+//		
 		
-		bp.printBooks();
+		Book book = new Book("http://www.loyalbooks.com/download/text/The-Count-of-Monte-Cristo-by-Alexandre-Dumas.txt");
 		
+//		book.storeData();
+		
+		book.printBookData();
 		
 //		Pattern p = Pattern.compile("([0-9]{4})");
 //		Matcher m = p.matcher("Publication date 28 October 1726 (291 years ago) (1726-10-28)");
