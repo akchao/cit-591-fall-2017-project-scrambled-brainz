@@ -17,24 +17,20 @@ import org.jsoup.select.Elements;
  *
  */
 
-public class Book {
+public class BookMetaData {
 
 	private String url;
 	private String author;
 	private String title;
 	private String pubDate;
 	private String location;
-	private double[] anger = new double[5];
-	private double[] joy = new double[5];
-	private double[] disgust = new double[5];
-	private double[] sadness = new double[5];
-	private double[] fear = new double[5];
+	
 	
 	// indicator to assess whether book has
 	// Wikipedia data or not
 	private Boolean hasData;
 	
-	public Book(String url) {
+	public BookMetaData(String url) {
 		this.url = url;
 		hasData = false;
 	}

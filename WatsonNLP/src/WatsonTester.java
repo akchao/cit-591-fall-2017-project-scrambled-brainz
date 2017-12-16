@@ -90,11 +90,11 @@ public class WatsonTester {
 /////	TEST: BookEmotionData = (BookSplitter -> WatsonAnalyzer -> WatsonParser)	
 		String url = "http://www.loyalbooks.com/download/text/King-Solomons-Mines-by-Haggard.txt";
 		BookEmotionData bookData = new BookEmotionData(url);
-		System.out.println("anger: " + Arrays.toString(bookData.getAnger()));
-		System.out.println("disgust: " + Arrays.toString(bookData.getDisgust()));
-		System.out.println("fear: " + Arrays.toString(bookData.getFear()));
-		System.out.println("joy: " + Arrays.toString(bookData.getJoy()));
-		System.out.println("sadness: " + Arrays.toString(bookData.getSadness()));
+		System.out.println("anger: " + bookData.getAnger());
+		System.out.println("disgust: " + bookData.getDisgust());
+		System.out.println("fear: " + bookData.getFear());
+		System.out.println("joy: " + bookData.getJoy());
+		System.out.println("sadness: " + bookData.getSadness());
 		
 		//response:
 		//anger: [0.111292, 0.131232, 0.115586, 0.141064, 0.11936]
