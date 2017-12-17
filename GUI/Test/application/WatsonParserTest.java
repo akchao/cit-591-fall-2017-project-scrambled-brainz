@@ -1,7 +1,6 @@
 package application;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +60,7 @@ public class WatsonParserTest {
 				"  \"type\": \"Location\",\n" + 
 				"  \"relevance\": 0.880592,\n" + 
 				"  \"count\": 70,\n" + 
-				"  \"text\": \"Elizabeth Bennet\",\n" + 
+				"  \"text\": \"Hospital\",\n" + 
 				"  \"emotion\": {\n" + 
 				"    \"anger\": 0.078232,\n" + 
 				"    \"disgust\": 0.026196,\n" + 
@@ -116,8 +115,8 @@ public class WatsonParserTest {
 		assertEquals(0.519859,wp.getSadnessScore(),0.000000);
 	}
 
-	@Test(expected=JsonParseException.class)
-	public void testWrongFormatting() {
+	@Test
+	public void testWrongFormatting() { 
 		String sampleWrongFormat = 
 				"    \"emotion\": {\n" + 
 				"      \"anger\": 0.144436,\n" + 
@@ -125,10 +124,13 @@ public class WatsonParserTest {
 				"      \"fear\": 0.130087,\n" + 
 				"      \"joy\": 0.599415,\n" + 
 				"    }\n";
-
 		
 		wp.parseDocEmotion(sampleWrongFormat);
-		assertEquals(0.519859,wp.getSadnessScore(),0.000000);
+		assertEquals(0.000000,wp.getAngerScore(),0.000000);
+		assertEquals(0.000000,wp.getDisgustScore(),0.000000);
+		assertEquals(0.000000,wp.getFearScore(),0.000000);
+		assertEquals(0.000000,wp.getJoyScore(),0.000000);
+		assertEquals(0.000000,wp.getSadnessScore(),0.000000);
 		
 	}
 	
@@ -136,25 +138,29 @@ public class WatsonParserTest {
 /// TESTS FOR ENTITY PARSING ////////////////////////////////////////////////////////////////////
 /// (entity feature not used in GUI version 1.0) 
 
-	
-//	cannot import "assertFalse"	
-/*	
+/*	Boolean not working
+ 	
 	@Test
 	public void testParseEntityIsAPerson() {
 		
 		wp.parsePersonEntity(sampleEntityPerson);
-		assertEquals("Person",wp.getEntityType());	
+		System.out.println("test is a person: " + wp.getEntityType());
+		assertTrue(wp.getEntityType().equals("Person")); 
+//		boolean checkIfPerson = true;
+//		assertTrue(checkIfPerson); 
+//		assertEquals(true,checkIfPerson);
 		fail("WatsonParser could not identify a Person entity type");
 	}
 	 
-	@Test(expected=Exception.class)
+	@Test
 	public void testParseEntityIsNotAPerson() {
 		
 		wp.parsePersonEntity(sampleEntityNonPerson);
-		assertFalse("Person",wp.getEntityType());	
+		System.out.println("test is not a person: " + wp.getEntityType());
+		assertFalse(wp.getEntityType().equals("Person"));	
 		fail("WatsonParser incorrectly identified a Person entity type");
 	}
-*/	 
+*/	
 	
 	@Test
 	public void testParseRemoveNonPerson() {
