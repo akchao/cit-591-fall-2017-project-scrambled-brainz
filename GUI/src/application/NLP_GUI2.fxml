@@ -21,7 +21,7 @@
    <children>
       <HBox prefHeight="719.0" prefWidth="1039.0">
          <children>
-            <VBox fx:id="currentYearList" prefHeight="600.0" prefWidth="257.0" spacing="8.0">
+            <VBox prefHeight="600.0" prefWidth="257.0" spacing="8.0">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -47,16 +47,7 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TreeView fx:id="currentAuthorList" layoutY="-1.0" prefHeight="165.0" prefWidth="226.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                        <Tab fx:id="genreList" text="Genre">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <TreeView fx:id="currentGenreTree" layoutY="-1.0" prefHeight="166.0" prefWidth="226.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <TreeView fx:id="currentAuthorTree" layoutY="-1.0" prefHeight="165.0" prefWidth="226.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </content>
@@ -86,7 +77,7 @@
                   </HBox>
                   <TabPane fx:id="comparisonTabs" prefHeight="405.0" prefWidth="233.0" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
-                        <Tab text="Title">
+                        <Tab fx:id="compareTitleTab" text="Title">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -95,7 +86,7 @@
                               </AnchorPane>
                            </content>
                         </Tab>
-                        <Tab text="Author">
+                        <Tab fx:id="compareAuthorTab" text="Author">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -104,16 +95,7 @@
                               </AnchorPane>
                            </content>
                         </Tab>
-                        <Tab text="Genre">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <TreeView fx:id="compareGenreTree" layoutX="-1.0" prefHeight="169.0" prefWidth="225.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                        <Tab text="Year">
+                        <Tab fx:id="compareYearTab" text="Year">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>

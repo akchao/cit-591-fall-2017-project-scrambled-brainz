@@ -7,6 +7,8 @@ import javax.print.attribute.HashAttributeSet;
 
 public class BookDummy {
 	private String title;
+	private String author;
+	private int year;
 	private double joy;
 	private double disgust;
 	private double anger;
@@ -17,8 +19,10 @@ public class BookDummy {
 	private ArrayList<HashMap<String, Double>> emotions = new ArrayList<HashMap<String, Double>>();
 	
 	
-	public BookDummy(String title, String author) {
+	public BookDummy(String title, String author, int year) {
 		this.title = title;
+		this.author = author;
+		this.year = year;
 		
 		String emotions[] = { "joy", "disgust", "anger", "sadness", "fear" };
 		
@@ -77,5 +81,11 @@ public class BookDummy {
 		} catch (Exception IndexOutOfBoundsException) {
 			return 0;
 		}
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public int getYear() {
+		return year;
 	}
 }
