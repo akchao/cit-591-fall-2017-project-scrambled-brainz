@@ -54,32 +54,32 @@ public class BookDataPrinter {
 					out.print(book.getAuthor() + ",");
 					out.print(book.getPubDate() + ",");
 					out.print(book.getLocation() + ",");
-					out.println(book.getUrl() + ",");
+					out.print(book.getUrl() + ",");
 
 					//emotion data
 					BookEmotionData emotionData = new BookEmotionData(book.getUrl());
 
 					for (int i=0; i<5; i++) {
-						out.println(emotionData.getAnger().get(i) + ",");
+						out.print(emotionData.getAnger().get(i) + ",");
 					}
 
 					for (int i=0; i<5; i++) {
-						out.println(emotionData.getDisgust().get(i) + ",");
+						out.print(emotionData.getDisgust().get(i) + ",");
 					}
 
 					for (int i=0; i<5; i++) {
-						out.println(emotionData.getFear().get(i) + ",");
+						out.print(emotionData.getFear().get(i) + ",");
 					}
 
 					for (int i=0; i<5; i++) {
-						out.println(emotionData.getJoy().get(i) + ",");
+						out.print(emotionData.getJoy().get(i) + ",");
 					}
 
 					for (int i=0; i<5; i++) {
-						out.println(emotionData.getSadness().get(i) + ",");
+						out.print(emotionData.getSadness().get(i) + ",");
 					}
 					
-					
+					out.println();
 					out.flush();
 					System.out.println("\t" + ++bookCount);
 				}

@@ -30,7 +30,7 @@ public class BookMetaDataReader {
 	public BookMetaDataReader() {
 		index = 0;
 		booksWithData = 0;
-		String file = "Book URLS.csv";
+		String file = "books URLs.csv";
 		readBookUrls(file);
 		
 //		urls.add("http://www.loyalbooks.com/download/text/Oliver-Twist-by-Charles-Dickens.txt");

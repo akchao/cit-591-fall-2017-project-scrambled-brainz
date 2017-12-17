@@ -6,7 +6,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesResult;
 /**
  * Test methods from WatsonParserTest
  * @author Alice
@@ -78,6 +77,43 @@ public class WatsonParserTest {
 		
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	@Test
+	public void testParseDocForDisgustScore() {
+		wp.parsePersonEntity(sampleEntityPerson);
+		assertEquals(0.026196,wp.getDisgustScore(),0.000000);	
+	}
+
+	
+	@Test
+	public void testParseDocForFearScore() {
+		wp.parsePersonEntity(sampleEntityPerson);
+		assertEquals(0.116198,wp.getFearScore(),0.000000);
+	}
+	
+	
+	@Test
+	public void testParseDocForJoyScore() {
+		wp.parsePersonEntity(sampleEntityPerson);
+		assertEquals(0.244804,wp.getJoyScore(),0.000000);
+		
+	}
+	
+	
+	@Test
+	public void testParseDocForSadnessScore() {
+		wp.parsePersonEntity(sampleEntityPerson);
+		assertEquals(0.112424,wp.getSadnessScore(),0.000000);
+	}
+	
+	
+	
 	@Test
 	public void testParseEntityIsAPerson() {
 		
