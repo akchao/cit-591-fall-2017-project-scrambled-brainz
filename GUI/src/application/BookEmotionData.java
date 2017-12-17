@@ -17,7 +17,8 @@ public class BookEmotionData {
 	private ArrayList<Double> sadness;
 	
 	/**
-	 * Constructs a BookEmotionData object that will split 
+	 * Constructs a BookEmotionData object that will 
+	 * perform the task for one book at a time
 	 * @param url the book url that should contain only the book text (no tables)
 	 */
 	public BookEmotionData(String url) {
@@ -33,7 +34,8 @@ public class BookEmotionData {
 	
 	
 	/**
-	 * Method that takes in a book url 
+	 * Method that takes in a book url and generates the emotion 
+	 * data for the book and stores it in an arraylist
 	 * @param url the book url 
 	 */
 	private void generateEmotionDataForBook(String url) {
