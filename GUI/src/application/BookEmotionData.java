@@ -1,14 +1,14 @@
 package application;
 import java.util.ArrayList;
-import java.util.Arrays;
 
+/**
+ * Class that takes integrates BookSplitter, WatsonAnalyzer, and WatsonParser 
+ * in order to read in a single book from a URL, split the book into 5 sections,
+ * send each section to Watson NLU API for processing, and stores the responses.
+ * @author Alice
+ *
+ */
 public class BookEmotionData {
-
-//	private double[] anger;
-//	private double[] disgust;
-//	private double[] fear;
-//	private double[] joy;
-//	private double[] sadness;
 	
 	private ArrayList<Double> anger;
 	private ArrayList<Double> disgust;
@@ -16,12 +16,11 @@ public class BookEmotionData {
 	private ArrayList<Double> joy;
 	private ArrayList<Double> sadness;
 	
+	/**
+	 * Constructs a BookEmotionData object that will split 
+	 * @param url the book url that should contain only the book text (no tables)
+	 */
 	public BookEmotionData(String url) {
-//		anger = new double[5];
-//		disgust = new double[5];
-//		fear = new double[5];
-//		joy = new double[5];
-//		sadness = new double[5];
 		
 		anger = new ArrayList<>();
 		disgust = new ArrayList<>();
@@ -32,34 +31,33 @@ public class BookEmotionData {
 		generateEmotionDataForBook(url);
 	}
 	
-	public void generateEmotionDataForBook(String url) {
+	
+	/**
+	 * Method that takes in a book url 
+	 * @param url the book url 
+	 */
+	private void generateEmotionDataForBook(String url) {
 		
-//		String url = "http://www.loyalbooks.com/download/text/King-Solomons-Mines-by-Haggard.txt";
 		BookSplitter split = new BookSplitter(url);
 		String[] bookSegments = split.getBookSegments();
 		
-		int index = 0;
 		
 		for (String s : bookSegments) {
+			// Watson API analyze for emotion in one book segment
 			WatsonAnalyzer wa = new WatsonAnalyzer(s);
 			String emotion = wa.getWatsonDocEmotion();
 
+			// parse Watson JSON response
 			WatsonParser wp = new WatsonParser();
-			wp.parseDocEmotion(emotion);
-//			anger[index] = wp.getAngerScore();
-//			disgust[index] = wp.getDisgustScore();
-//			fear[index] = wp.getFearScore();
-//			joy[index] = wp.getJoyScore();
-//			sadness[index] = wp.getSadnessScore();
+			wp.parseDocEmotion(emotion);			
 			
-			
+			// store specific emotion scores in arraylist
 			anger.add(wp.getAngerScore());
 			disgust.add(wp.getDisgustScore());
 			fear.add(wp.getFearScore());
 			joy.add(wp.getJoyScore());
 			sadness.add(wp.getSadnessScore());
 
-			index++;
 		}
 		
 	}
@@ -100,43 +98,6 @@ public class BookEmotionData {
 	}
 
 	
-	
-//	/**
-//	 * @return the anger array of anger scores for each book segment
-//	 */
-//	public double[] getAnger() {
-//		return anger;
-//	}
-//
-//	/**
-//	 * @return the disgust array of disgust scores for each book segment
-//	 */
-//	public double[] getDisgust() {
-//		return disgust;
-//	}
-//
-//	/**
-//	 * @return the fear array of fear scores for each book segment
-//	 */
-//	public double[] getFear() {
-//		return fear;
-//	}
-//
-//	/**
-//	 * @return the joy array of joy scores for each book segment
-//	 */
-//	public double[] getJoy() {
-//		return joy;
-//	}
-//
-//	/**
-//	 * @return the sadness array of sadness scores for each book segment
-//	 */
-//	public double[] getSadness() {
-//		return sadness;
-//	}
-	
-	
-	
+
 	
 }

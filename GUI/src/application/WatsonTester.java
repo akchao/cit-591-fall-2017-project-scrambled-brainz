@@ -25,6 +25,15 @@ public class WatsonTester {
 		String url = "http://www.loyalbooks.com/download/text/Gullivers-Travels-by-Jonathan-Swift.txt";
 		BookEmotionData bed = new BookEmotionData(url);
 		
+		System.out.println("Emotion scores of book from beginning to end:");
+		System.out.println("(URL: " + url + " )\n");
+		System.out.println("Emotion: [section 1, section 2, section 3, section 4, section 5]");
+		System.out.println("Anger: " + bed.getAnger());
+		System.out.println("Disgust: " + bed.getDisgust());
+		System.out.println("Fear: " + bed.getFear());
+		System.out.println("Joy: " + bed.getJoy());
+		System.out.println("Sadness: " + bed.getSadness());
+		
 	}
 
 }

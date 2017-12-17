@@ -78,6 +78,7 @@ public class WatsonAnalyzer {
 
 		} catch (Exception e) {
 			watsonDocEmotion = null;
+			System.out.println("Document was not formatted correctly for Watson API");
 		}
 	}		
 	
