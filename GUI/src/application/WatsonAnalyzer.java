@@ -1,9 +1,6 @@
 package application;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalLanguageUnderstanding;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
@@ -18,16 +15,16 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Fe
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.KeywordsOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.RelationsOptions;
 /**
- * Runs the Watson Natural Language Understanding service 
- * using either a URL or provided text
- * and uses it to find the mood of the characters 
+ * Runs the Watson Natural Language Understanding service API
+ * using provided text stored as a string and evaluates the whole
+ * text as well as for entities/characters in it for
+ * 5 emotions: joy, sadness, fear, disgust, anger
  * @author Alice
  *
  */
 public class WatsonAnalyzer {
 	
 	private static NaturalLanguageUnderstanding service;
-	private String text;
 	private AnalysisResults response;
 	private List<EntitiesResult> watsonEntities;
 	private List<String> watsonEntitiesString;
@@ -37,51 +34,19 @@ public class WatsonAnalyzer {
 	/**
 	 * Constructor initializes Watson Natural Language Understanding API 
 	 */
-	public WatsonAnalyzer(String bookNameOrUrl) {
+	public WatsonAnalyzer(String bookText) {
 		
 		service = new NaturalLanguageUnderstanding(
 				  NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
 				  Secret.username, Secret.password);
 		
-		// THIS WILL EVENTUALLY JUST BE SIMPLIFIED TO TAKING IN BOOK AS A STRING
-		// URL AND .TXT PERMITTED FOR TESTING OUT WATSON FEATURES
-		
-//		if (bookNameOrUrl.contains("http://")) {
-//			runURLEntitiesEmotion(bookNameOrUrl);
-//		} else 
-			if (bookNameOrUrl.contains(".txt")) {
-			text = fileReader(bookNameOrUrl);
-			if (text != null) {
-//			runEntitiesEmotion(text);
-			runWatsonDocEmotion(text);
-			}
-		} else {									// pass the entire book as a string
-//			runEntitiesEmotion(bookNameOrUrl);
-			runWatsonDocEmotion(bookNameOrUrl);
-		}
+		runWatsonDocEmotion(bookText);		// find emotions for document/text
+//		runEntitiesEmotion(bookNameOrUrl); 	// find emotions for each entity/character
 
 	}
-	
-	
-	/**
-	 * Temporary fileReader until this is abstracted out
-	 * @return text the book stored as a string
-	 */
-	private String fileReader(String book) {
-		File inputFile = new File(book); 
-		Scanner in = null;
-		try {
-			in = new Scanner(inputFile, "utf-8");
-			text = in.useDelimiter("\\Z").next();
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			in.close();
-		}
-		return text;
-	}
 	
+/// DOCUMENT/TEXT EMOTION  /////////////////////////////////////////////////////////
 	
 	/**
 	 * Runs a string through customized Watson NLU API
@@ -89,29 +54,45 @@ public class WatsonAnalyzer {
 	 * @param book
 	 */
 	private void runWatsonDocEmotion(String book) {
-
-		EmotionOptions emotion = new EmotionOptions.Builder()
-				.document(true)
-				.build();
 		
-		Features features = new Features.Builder()
-				.emotion(emotion)
-				.build();
+		// Watson only handles certain languages
+		try {
+			EmotionOptions emotion = new EmotionOptions.Builder()
+					.document(true)
+					.build();
 
-		AnalyzeOptions parameters = new AnalyzeOptions.Builder()
-				.text(book)
-				.features(features)
-				.build();
+			Features features = new Features.Builder()
+					.emotion(emotion)
+					.build();
 
-		response = service
-				.analyze(parameters)
-				.execute();
-		
-		watsonDocEmotion = response.getEmotion().toString();
+			AnalyzeOptions parameters = new AnalyzeOptions.Builder()
+					.text(book)
+					.features(features)
+					.build();
 
+			response = service
+					.analyze(parameters)
+					.execute();
+
+			watsonDocEmotion = response.getEmotion().toString();
+
+		} catch (Exception e) {
+			watsonDocEmotion = null;
+		}
 	}		
 	
 	
+	/**
+	 * Stores Watson document emotion json data as a string 
+	 * @return the watsonDocEmotion document emotion json data as a string
+	 */
+	public String getWatsonDocEmotion() {
+		return watsonDocEmotion;
+	}
+
+	
+	
+/// CHARACTER EMOTION (NOT USED IN THIS VERSION OF GUI) /////////////////////////////////
 	
 	/**
 	 * Runs a string through customized Watson NLU API
@@ -121,7 +102,7 @@ public class WatsonAnalyzer {
 	private void runEntitiesEmotion(String book) {
 		
 		// not possible to customize entity to find "Person" type
-		// running max limit 250 and will find "Person" type in WatsonParser
+		// run max limit 250 and find "Person" type in WatsonParser
 		EntitiesOptions entitiesOptions = new EntitiesOptions.Builder()
 				.emotion(true)
 				.sentiment(true)		
@@ -193,15 +174,7 @@ public class WatsonAnalyzer {
 		return watsonEntitiesString;
 	}
 	
-
-	
-	/**
-	 * Stores Watson document emotion json data as a string 
-	 * @return the watsonDocEmotion document emotion json data as a string
-	 */
-	public String getWatsonDocEmotion() {
-		return watsonDocEmotion;
-	}
+/// OTHER POTENTIAL NLU PARAMETERS (NOT USED IN THIS VERSION OF GUI) /////////////////////////////////
 
 
 	/**
@@ -238,8 +211,8 @@ public class WatsonAnalyzer {
 				.document(true)
 				.build();
 		
-		// RELATIONS GOES THROUGH COMPLETE RELATIONS LIST TO FIND RELATIONSHIPS WITHIN TEXT
-		// NOT BETWEEN TWO DIFFERENT TEXTS. CAN BE CUSTOMIZED BUT ONLY WITHIN TEXT
+		// Relations goes through complete relations list to find relationships
+		// within text, not between two different texts 
 		RelationsOptions relations = new RelationsOptions.Builder()
 				.build();
 
