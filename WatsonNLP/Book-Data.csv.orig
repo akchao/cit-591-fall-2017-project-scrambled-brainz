@@ -1,0 +1,15 @@
+<<<<<<< HEAD
+Title,Author,Publication Date,Location,URL,Anger[0],Anger[1],Anger[2],Anger[3],Anger[4],Disgust[0],Disgust[1],Disgust[2],Disgust[3],Disgust[4],Fear[0],Fear[1],Fear[2],Fear[3],Fear[4],Joy[0],Joy[1],Joy[2],Joy[3],Joy[4],Sadness[0],Sadness[1],Sadness[2],Sadness[3],Sadness[4]
+Gulliver's Travels,Jonathan Swift,1726,Ireland,http://www.loyalbooks.com/download/text/Gullivers-Travels-by-Jonathan-Swift.txt,0.157038,0.52582,0.166165,0.157706,0.476292,0.135134,0.173765,0.109895,0.554601,0.151573,0.156341,0.64018,0.167253,0.108308,0.14956,0.579051,0.546452,0.583248,0.620224,0.545464,0.21372,0.529285,0.483778,0.535555,0.547809
+This Side of Paradise,F. Scott Fitzgerald,1920,United States,http://www.loyalbooks.com/download/text/This-Side-of-Paradise-by-F-Scott-Fitzgerald.txt,0.114483,0.1121,0.181843,0.156297,0.106985,0.094429,0.083862,0.138835,0.089771,0.114104,0.090878,0.53168,0.573033,0.120728,0.639512,0.641239,0.593095,0.576609,0.594026,0.568044,0.519021,0.543636,0.527599,0.576347,0.553697
+Oliver Twist,Charles Dickens,1837,England,http://www.loyalbooks.com/download/text/Oliver-Twist-by-Charles-Dickens.txt,0.555162,0.175905,0.463895,0.543071,0.152352,0.124035,0.113705,0.132557,0.480571,0.137955,0.124698,0.522803,0.179575,0.494479,0.544276,0.536412,0.611019,0.605387,0.528676,0.590998,0.197168,0.488934,0.49587,0.568951,0.582072
+=======
+Title,Author,Publication Date,Location,URL
+Toilers of the Sea,Victor Hugo,1866,Belgium,http://www.loyalbooks.com/download/text/Toilers-of-the-Sea.txt,
+An Old-Fashioned Girl,Louisa May Alcott,1869,United States,http://www.loyalbooks.com/download/text/An-Old-Fashioned-Girl-by-Lousia-May-Alcott.txt,
+Oliver Twist,Charles Dickens,1837,England,http://www.loyalbooks.com/download/text/Oliver-Twist-by-Charles-Dickens.txt,
+What Katy Did,Susan Coolidge,1872,United States,http://www.loyalbooks.com/download/text/What-Katy-Did-at-School-by-Susan-Coolidge.txt,
+A Child's History of England,Charles Dickens,1852,England,http://www.loyalbooks.com/download/text/A-Childs-History-of-England-by-Charles-Dickens.txt,
+Gulliver's Travels,Jonathan Swift,1726,Ireland,http://www.loyalbooks.com/download/text/Gullivers-Travels-by-Jonathan-Swift.txt,
+Floor Games,H. G. Wells,1911,null,http://www.loyalbooks.com/download/text/Floor-Games.txt,
+>>>>>>> books
