@@ -16,10 +16,10 @@ import org.jsoup.select.Elements;
  * @author Drawjk705
  *
  */
-public class BookReader {
+public class BookMetaDataReader {
 
 	private ArrayList<String> urls = new ArrayList<String>();
-	ArrayList<Book> books = new ArrayList<Book>();	
+	ArrayList<BookMetaData> books = new ArrayList<BookMetaData>();	
 	private String json;
 	private static int index;
 	private static int booksWithData;
@@ -27,27 +27,15 @@ public class BookReader {
 //	private String url;
 	
 	
-	public BookReader() {
+	public BookMetaDataReader() {
 		index = 0;
 		booksWithData = 0;
-		String file = "Book URLS.csv";
+		String file = "books URLs.csv";
 		readBookUrls(file);
-		
-//		urls.add("http://www.loyalbooks.com/download/text/Oliver-Twist-by-Charles-Dickens.txt");
-//		urls.add("http://www.loyalbooks.com/download/text/Duchess-of-Malfi.txt");
-//		urls.add("http://www.loyalbooks.com/download/text/Master-Builder-Henrik-Ibsen.txt");
-//		urls.add("http://www.loyalbooks.com/download/text/Gullivers-Travels-by-Jonathan-Swift.txt");
-//		urls.add("http://www.loyalbooks.com/download/text/This-Side-of-Paradise-by-F-Scott-Fitzgerald.txt");
-		
+
 		for (String url : urls) {
-			Book book = new Book(url);
+			BookMetaData book = new BookMetaData(url);
 			books.add(book);
-//			book.storeData();
-//			System.out.println(++index);
-//			if (book.hasData()) {
-//				System.out.println("\t" + ++booksWithData);
-//				books.add(book);
-//			}
 		}
 	}
 			
@@ -81,7 +69,7 @@ public class BookReader {
 		return urls;
 	}
 	
-	public ArrayList<Book> getBooks() {
+	public ArrayList<BookMetaData> getBooks() {
 		return books;
 	}
 	
