@@ -2,8 +2,11 @@ package application;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +25,7 @@ import javafx.scene.text.Text;
 public class NLPController implements Initializable {
 	
 	// mapping between book title to the book object itself
-	private HashMap<String, BookObj> titleToBook = new HashMap<String, BookObj>();	
+	private HashMap<String, BookObj> titleToBook = new HashMap<String, BookObj>();
 
 	// list of books to display
 	private ObservableList<String> list;
@@ -119,6 +122,7 @@ public class NLPController implements Initializable {
 		for (BookObj book: books) {
 			titleToBook.put(book.getTitle(), book);
 		}
+		TreeMap<String, BookObj> sortedTitles = new TreeMap<>(titleToBook);
 				
 		HashMap<String, ArrayList<String>> authorList = new HashMap<String, ArrayList<String>>();
 		
@@ -131,15 +135,18 @@ public class NLPController implements Initializable {
 				ArrayList<String> authorOuvre = new ArrayList<String>();
 				authorOuvre.add(book.getTitle());
 				authorList.put(book.getAuthor(), authorOuvre);
+				Collections.sort(authorOuvre);
 			} else {
 				authorList.get(book.getAuthor()).add(book.getTitle());
+				Collections.sort(authorList.get(book.getAuthor()));
 			}
 		}
+		TreeMap<String, ArrayList<String>> sortedAuthors = new TreeMap<>(authorList);
 
 		TreeItem<String> dummyAuthorRoot = new TreeItem<String>("dummy");
 		
 		// iterate through each author in the list of authors
-		for (String author : authorList.keySet()) {
+		for (String author : sortedAuthors.keySet()) {
 			// make a new root for that author
 			TreeItem<String> authorRoot = new TreeItem<String>(author);
 			// set default so author's list isn't expanded
@@ -173,15 +180,22 @@ public class NLPController implements Initializable {
 				ArrayList<String> yearOuvre = new ArrayList<String>();
 				yearOuvre.add(book.getTitle());
 				yearList.put(book.getPubDate(), yearOuvre);
+				Collections.sort(yearOuvre);
 			} else {
 				yearList.get(book.getPubDate()).add(book.getTitle());
+				Collections.sort(yearList.get(book.getPubDate()));
 			}
 		}
+		// convert to TreeMap to order keys
+		TreeMap<Integer, ArrayList<String>> sortedYears = new TreeMap<>(yearList);
+//		for (Integer i : sortedYears.keySet()) { 
+//			System.out.println(i);
+//		}
 
 		TreeItem<String> dummyYearRoot = new TreeItem<String>("dummy");
 		
 		// iterate through each year in the list of years
-		for (Integer year : yearList.keySet()) {
+		for (Integer year : sortedYears.keySet()) {
 			// make a new root for that year
 			TreeItem<String> yearRoot = new TreeItem<String>(year.toString());
 			// set default so year's list isn't expanded
@@ -205,7 +219,7 @@ public class NLPController implements Initializable {
 
 		
 		// have all books loaded into the list
-		list = FXCollections.observableArrayList(titleToBook.keySet());
+		list = FXCollections.observableArrayList(sortedTitles.keySet());
 		bookList.setItems(list);
 
 		
@@ -243,16 +257,17 @@ public class NLPController implements Initializable {
     		} else if (currentYearTab.isSelected())  {
     			title = currentYearTree.getSelectionModel().getSelectedItem().getValue();
     		}
+
+    		// convert title to book object
+    	    BookObj book = titleToBook.get(title);
     		
     		// set the currentBook text
-    		currentBook.setText(title);
+    		currentBook.setText(title + " by " + book.getAuthor());
     		// remove this book from the comparison list
     		list2.remove(title);
     		// set the comparison list
         	comparisonList.setItems(list2);
         	
-        	// book object
-    	    BookObj book = titleToBook.get(title);
 
     	    // declare series
     	    XYChart.Series<String, Double> anger = new XYChart.Series<>();
@@ -320,14 +335,15 @@ public class NLPController implements Initializable {
     			title = compareYearTree.getSelectionModel().getSelectedItem().getValue();
     		}
     		
+
+    		// new book object
+    	    BookObj book = titleToBook.get(title);
+    		
     		// set comparedBook text
-    		comparedBook.setText(title);
+    		comparedBook.setText(title + " by " + book.getAuthor());
         	// set "switch" to true
     		booksCompared = true;
         	
-    		// new book dummy
-    	    BookObj book = titleToBook.get(title);
-
     	    // declare series
     	    XYChart.Series<String, Double> anger = new XYChart.Series<>();
     		XYChart.Series<String, Double> fear = new XYChart.Series<>();
