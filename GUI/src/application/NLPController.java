@@ -22,7 +22,7 @@ import javafx.scene.text.Text;
 public class NLPController implements Initializable {
 	
 	// mapping between book title to the book object itself
-	private HashMap<String, BookDummy> titleToBook = new HashMap<String, BookDummy>();	
+	private HashMap<String, BookObj> titleToBook = new HashMap<String, BookObj>();	
 
 	// list of books to display
 	private ObservableList<String> list;
@@ -111,35 +111,28 @@ public class NLPController implements Initializable {
 		// set comparedBook text
 		comparedBook.setText("None");
 		
-		// dummy books to load into the bookList
+		// get all books
+		BookObjDataReader bodr = new BookObjDataReader();
+		
+		ArrayList<BookObj> books = new ArrayList<BookObj>(bodr.getBooks());
+
+		for (BookObj book: books) {
+			titleToBook.put(book.getTitle(), book);
+		}
 				
-		BookDummy b1 = new BookDummy("Help!", "The Beatles", 1965);
-		BookDummy b2 = new BookDummy("Abbey Road", "The Beatles", 1969);
-		BookDummy b3 = new BookDummy("Let it Bleed", "The Rolling Stones", 1969);
-		BookDummy b4 = new BookDummy("Purple Rain", "Prince", 1984);
-		
-		titleToBook.put(b1.getTitle(), b1);
-		titleToBook.put(b2.getTitle(), b2);
-		titleToBook.put(b3.getTitle(), b3);
-		titleToBook.put(b4.getTitle(), b4);
-		
-		
-		// create tree view for authors
-		ArrayList<BookDummy> bds = new ArrayList<BookDummy>(titleToBook.values());
-		
 		HashMap<String, ArrayList<String>> authorList = new HashMap<String, ArrayList<String>>();
 		
 		// create new HashMap of authors to list of their ouvre if
 		// doesn't already exist
 		// if there is already a mapping, add book to list of author's
 		// ouvre
-		for (BookDummy bd : bds) {
-			if (!authorList.containsKey(bd.getAuthor())) {
+		for (BookObj book : books) {
+			if (!authorList.containsKey(book.getAuthor())) {
 				ArrayList<String> authorOuvre = new ArrayList<String>();
-				authorOuvre.add(bd.getTitle());
-				authorList.put(bd.getAuthor(), authorOuvre);
+				authorOuvre.add(book.getTitle());
+				authorList.put(book.getAuthor(), authorOuvre);
 			} else {
-				authorList.get(bd.getAuthor()).add(bd.getTitle());
+				authorList.get(book.getAuthor()).add(book.getTitle());
 			}
 		}
 
@@ -175,13 +168,13 @@ public class NLPController implements Initializable {
 		// doesn't already exist
 		// if there is already a mapping, add book to list of year's
 		// ouvre
-		for (BookDummy bd : bds) {
-			if (!yearList.containsKey(bd.getYear())) {
+		for (BookObj book : books) {
+			if (!yearList.containsKey(book.getPubDate())) {
 				ArrayList<String> yearOuvre = new ArrayList<String>();
-				yearOuvre.add(bd.getTitle());
-				yearList.put(bd.getYear(), yearOuvre);
+				yearOuvre.add(book.getTitle());
+				yearList.put(book.getPubDate(), yearOuvre);
 			} else {
-				yearList.get(bd.getYear()).add(bd.getTitle());
+				yearList.get(book.getPubDate()).add(book.getTitle());
 			}
 		}
 
@@ -237,29 +230,29 @@ public class NLPController implements Initializable {
     	// will display all books except for the one that is currently selected
     	ObservableList<String> list2 = FXCollections.observableArrayList((list));
     	
-    	String bd = null;
+    	String title = null;
     	
     	// if are selecting a book without comparing
     	if (event.getSource().equals(selectBook) || event.getSource().equals(updateGraph) ||
     			event.getSource().equals(compareWith)) {
     		// get the selected book
     		if (currentTitleTab.isSelected()) {
-    			bd = bookList.getSelectionModel().getSelectedItem();
+    			title = bookList.getSelectionModel().getSelectedItem();
     		} else if (currentAuthorTab.isSelected()) {
-    			bd = currentAuthorTree.getSelectionModel().getSelectedItem().getValue();
+    			title = currentAuthorTree.getSelectionModel().getSelectedItem().getValue();
     		} else if (currentYearTab.isSelected())  {
-    			bd = currentYearTree.getSelectionModel().getSelectedItem().getValue();
+    			title = currentYearTree.getSelectionModel().getSelectedItem().getValue();
     		}
     		
     		// set the currentBook text
-    		currentBook.setText(bd);
+    		currentBook.setText(title);
     		// remove this book from the comparison list
-    		list2.remove(bd);
+    		list2.remove(title);
     		// set the comparison list
         	comparisonList.setItems(list2);
         	
-        	// book dummy object
-    	    BookDummy book = titleToBook.get(bd);
+        	// book object
+    	    BookObj book = titleToBook.get(title);
 
     	    // declare series
     	    XYChart.Series<String, Double> anger = new XYChart.Series<>();
@@ -271,45 +264,46 @@ public class NLPController implements Initializable {
     		// plot series data
     		
     		//anger
-    		anger.getData().add(new XYChart.Data<String, Double>("1", book.getAnger(0)));
-    		anger.getData().add(new XYChart.Data<String, Double>("2", book.getAnger(1)));
-    		anger.getData().add(new XYChart.Data<String, Double>("3", book.getAnger(2)));
-    		anger.setName(bd + ": Anger");
+    		for (int i = 0; i < 5; i ++) {
+    			anger.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getAnger().get(i)));
+    		}
+    		anger.setName(title + ": Anger");
     		if (angerCheck.isSelected()) {
     			lineChart.getData().add(anger);
     		}
     		
     		// joy
-    		joy.getData().add(new XYChart.Data<String, Double>("1", book.getJoy(0)));
-    		joy.getData().add(new XYChart.Data<String, Double>("2", book.getJoy(1)));
-    		joy.getData().add(new XYChart.Data<String, Double>("3", book.getJoy(2)));
-    		joy.setName(bd + ": Joy");
+    		for (int i = 0; i < 5; i++) {
+    			joy.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getJoy().get(i)));	
+    		}
+    		joy.setName(title + ": Joy");
     		if (joyCheck.isSelected()) {
     			lineChart.getData().add(joy);
-    		}		
+    		}
     		
-    		// disgust
-    		disgust.getData().add(new XYChart.Data<String, Double>("1", book.getDisgust(0)));
-    		disgust.getData().add(new XYChart.Data<String, Double>("2", book.getDisgust(1)));
-    		disgust.getData().add(new XYChart.Data<String, Double>("3", book.getDisgust(2)));
-    		disgust.setName(bd + ": Disgust");
+       		// disgust
+    		for (int i = 0; i < 5; i++) {
+    			disgust.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getDisgust().get(i)));
+    		}
+    		disgust.setName(title + ": Disgust");
     		if (disgustCheck.isSelected()) {
     			lineChart.getData().add(disgust);
     		}
     		
     		// sadness
-    		sadness.getData().add(new XYChart.Data<String, Double>("1", book.getSadness(0)));
-    		sadness.getData().add(new XYChart.Data<String, Double>("2", book.getSadness(1)));
-    		sadness.getData().add(new XYChart.Data<String, Double>("3", book.getSadness(2)));
-    		sadness.setName(bd + ": Sadness");
+    		for (int i = 0; i < 5; i++) {
+    			sadness.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getSadness().get(i)));
+    		}
+    		sadness.setName(title + ": Sadness");
     		if (sadCheck.isSelected()) {
     			lineChart.getData().add(sadness);
     		}
     		
-    		fear.getData().add(new XYChart.Data<String, Double>("1", book.getFear(0)));
-    		fear.getData().add(new XYChart.Data<String, Double>("2", book.getFear(1)));
-    		fear.getData().add(new XYChart.Data<String, Double>("3", book.getFear(2)));
-    		fear.setName(bd + ": Fear");
+    		// fear
+    		for (int i = 0; i < 5; i++) {
+    			fear.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getFear().get(i)));
+    		}
+    		fear.setName(title + ": Fear");
     		if (fearCheck.isSelected()) {
     			lineChart.getData().add(fear);
     		}
@@ -319,20 +313,20 @@ public class NLPController implements Initializable {
     			booksCompared)) {
     		// get the selected book
     		if (compareTitleTab.isSelected()) {
-    			bd = comparisonList.getSelectionModel().getSelectedItem();
+    			title = comparisonList.getSelectionModel().getSelectedItem();
     		} else if (compareAuthorTab.isSelected()) {
-    			bd = compareAuthorTree.getSelectionModel().getSelectedItem().getValue();
+    			title = compareAuthorTree.getSelectionModel().getSelectedItem().getValue();
     		} else if (compareYearTab.isSelected())  {
-    			bd = compareYearTree.getSelectionModel().getSelectedItem().getValue();
+    			title = compareYearTree.getSelectionModel().getSelectedItem().getValue();
     		}
     		
     		// set comparedBook text
-    		comparedBook.setText(bd);
+    		comparedBook.setText(title);
         	// set "switch" to true
     		booksCompared = true;
         	
     		// new book dummy
-    	    BookDummy book = titleToBook.get(bd);
+    	    BookObj book = titleToBook.get(title);
 
     	    // declare series
     	    XYChart.Series<String, Double> anger = new XYChart.Series<>();
@@ -342,42 +336,47 @@ public class NLPController implements Initializable {
     		XYChart.Series<String, Double> joy = new XYChart.Series<>();
 
     		// plot series
-    		anger.getData().add(new XYChart.Data<String, Double>("1", book.getAnger(0)));
-    		anger.getData().add(new XYChart.Data<String, Double>("2", book.getAnger(1)));
-    		anger.getData().add(new XYChart.Data<String, Double>("3", book.getAnger(2)));
-    		anger.setName(bd + ": Anger");
+    		//anger
+    		for (int i = 0; i < 5; i ++) {
+    			anger.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getAnger().get(i)));
+    		}
+    		anger.setName(title + ": Anger");
     		if (angerCheck.isSelected()) {
     			lineChart.getData().add(anger);
     		}
     		
-    		joy.getData().add(new XYChart.Data<String, Double>("1", book.getJoy(0)));
-    		joy.getData().add(new XYChart.Data<String, Double>("2", book.getJoy(1)));
-    		joy.getData().add(new XYChart.Data<String, Double>("3", book.getJoy(2)));
-    		joy.setName(bd + ": Joy");
+    		// joy
+    		for (int i = 0; i < 5; i++) {
+    			joy.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getJoy().get(i)));	
+    		}
+    		joy.setName(title + ": Joy");
     		if (joyCheck.isSelected()) {
     			lineChart.getData().add(joy);
-    		}		
+    		}
     		
-    		disgust.getData().add(new XYChart.Data<String, Double>("1", book.getDisgust(0)));
-    		disgust.getData().add(new XYChart.Data<String, Double>("2", book.getDisgust(1)));
-    		disgust.getData().add(new XYChart.Data<String, Double>("3", book.getDisgust(2)));
-    		disgust.setName(bd + ": Disgust");
+       		// disgust
+    		for (int i = 0; i < 5; i++) {
+    			disgust.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getDisgust().get(i)));
+    		}
+    		disgust.setName(title + ": Disgust");
     		if (disgustCheck.isSelected()) {
     			lineChart.getData().add(disgust);
     		}
     		
-    		sadness.getData().add(new XYChart.Data<String, Double>("1", book.getSadness(0)));
-    		sadness.getData().add(new XYChart.Data<String, Double>("2", book.getSadness(1)));
-    		sadness.getData().add(new XYChart.Data<String, Double>("3", book.getSadness(2)));
-    		sadness.setName(bd + ": Sadness");
+    		// sadness
+    		for (int i = 0; i < 5; i++) {
+    			sadness.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getSadness().get(i)));
+    		}
+    		sadness.setName(title + ": Sadness");
     		if (sadCheck.isSelected()) {
     			lineChart.getData().add(sadness);
     		}
     		
-    		fear.getData().add(new XYChart.Data<String, Double>("1", book.getFear(0)));
-    		fear.getData().add(new XYChart.Data<String, Double>("2", book.getFear(1)));
-    		fear.getData().add(new XYChart.Data<String, Double>("3", book.getFear(2)));
-    		fear.setName(bd + ": Fear");
+    		// fear
+    		for (int i = 0; i < 5; i++) {
+    			fear.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getFear().get(i)));
+    		}
+    		fear.setName(title + ": Fear");
     		if (fearCheck.isSelected()) {
     			lineChart.getData().add(fear);
     		}
