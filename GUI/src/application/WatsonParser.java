@@ -2,6 +2,7 @@ package application;
 import java.util.List;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 
@@ -51,7 +52,7 @@ public class WatsonParser {
 			JsonObject docResponse = emotionResponse.get("document").getAsJsonObject();
 
 			parseEmotion(docResponse);	
-		} catch (Exception e) {
+		} catch (JsonParseException e) {
 			System.out.println("Provided document emotion was formatted incorrectly ");
 		}
 		
@@ -69,7 +70,7 @@ public class WatsonParser {
 			fearScore = emotion.get("fear").getAsDouble();
 			joyScore = emotion.get("joy").getAsDouble();
 			sadnessScore = emotion.get("sadness").getAsDouble();
-		} catch (Exception e) {
+		} catch (JsonParseException e) {
 			System.out.println("Provided emotion was formatted incorrectly ");
 		}
 
