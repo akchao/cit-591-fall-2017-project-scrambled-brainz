@@ -88,8 +88,9 @@ public class WatsonTester {
 */
 
 /////	TEST: BookEmotionData = (BookSplitter -> WatsonAnalyzer -> WatsonParser)	
+	/*
 //		String url = "http://www.loyalbooks.com/download/text/King-Solomons-Mines-by-Haggard.txt";
-		String url = "http://www.loyalbooks.com/download/text/Hedda-Gabler.txt";
+//		String url = "http://www.loyalbooks.com/download/text/Hedda-Gabler.txt";
 //		String url = "http://www.loyalbooks.com/download/text/King-Lear-by-William-Shakespeare.txt";
 //		String url = "http://www.loyalbooks.com/download/text/Mrs-Peter-Rabbit-by-Thornton-W-Burgess.txt";
 		
@@ -107,6 +108,9 @@ public class WatsonTester {
 		//fear: [0.09306, 0.122896, 0.145105, 0.171134, 0.444784]
 		//joy: [0.603973, 0.576895, 0.586473, 0.539747, 0.57395]
 		//sadness: [0.547961, 0.581861, 0.535293, 0.577122, 0.490002]
+*/
+		BookDataPrinter bdp = new BookDataPrinter(); 
+		bdp.printBooks();
 		
 ////// 	TEST: WatsonAnalyzer -> WatsonParser for Entities/Characters 
 /*
