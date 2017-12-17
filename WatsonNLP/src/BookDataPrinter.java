@@ -23,7 +23,7 @@ public class BookDataPrinter {
 	 * method to print books to .csv file
 	 */
 	public void printBooks() {
-		BookReader br = new BookReader();
+		BookMetaDataReader br = new BookMetaDataReader();
 
 		// store books in ArrayList
 		ArrayList<BookMetaData> books = new ArrayList<BookMetaData>(br.getBooks());

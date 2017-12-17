@@ -16,7 +16,7 @@ import org.jsoup.select.Elements;
  * @author Drawjk705
  *
  */
-public class BookReader {
+public class BookMetaDataReader {
 
 	private ArrayList<String> urls = new ArrayList<String>();
 	ArrayList<BookMetaData> books = new ArrayList<BookMetaData>();	
@@ -27,7 +27,7 @@ public class BookReader {
 //	private String url;
 	
 	
-	public BookReader() {
+	public BookMetaDataReader() {
 		index = 0;
 		booksWithData = 0;
 		String file = "Book URLS.csv";
