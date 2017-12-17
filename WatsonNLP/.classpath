@@ -5,9 +5,6 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="lib" path="/Users/Alice/Downloads/java-sdk-4.0.0-jar-with-dependencies.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Users/Alice/Downloads/java-json.jar"/>
-	<classpathentry kind="lib" path="/Users/Alice/Downloads/javax.json-api-1.0.jar"/>
-	<classpathentry kind="lib" path="/Users/Alice/Downloads/javax.json-1.0.4.jar"/>
 	<classpathentry kind="lib" path="/Users/Alice/Downloads/jsoup.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

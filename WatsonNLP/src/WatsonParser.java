@@ -1,8 +1,4 @@
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.json.*; 
-import javax.json.Json;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

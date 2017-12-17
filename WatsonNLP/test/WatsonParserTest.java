@@ -6,7 +6,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesResult;
 /**
  * Test methods from WatsonParserTest
  * @author Alice
