@@ -26,7 +26,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label text="Current Book: " />
-                        <Text fx:id="currentBook" strokeType="OUTSIDE" strokeWidth="0.0" text="No Book Selected" wrappingWidth="124.4296875" />
+                        <Text fx:id="currentBook" strokeType="OUTSIDE" strokeWidth="0.0" text="No Book Selected" wrappingWidth="110" />
                      </children>
                      <padding>
                         <Insets bottom="8.0" right="8.0" top="8.0" />
@@ -121,7 +121,7 @@
             <VBox prefHeight="719.0" prefWidth="779.0">
                <children>
                   <LineChart fx:id="lineChart" prefHeight="600.0" prefWidth="753.0" title="Shapes of Stories">
-                    <xAxis>
+                    <xAxis> 
                       <CategoryAxis label="Time" side="BOTTOM" />
                     </xAxis>
                     <yAxis>
