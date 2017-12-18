@@ -14,8 +14,6 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.En
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.KeywordsOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.RelationsOptions;
-
-import application.Secret;
 /**
  * Runs the Watson Natural Language Understanding service API
  * using provided text stored as a string and evaluates the whole

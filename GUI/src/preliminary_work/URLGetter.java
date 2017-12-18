@@ -21,17 +21,13 @@ public class URLGetter {
 
 	// keep track of all links
 	private HashMap<String, Integer> txtLinks = new HashMap<String, Integer>(); 
-
+	private ArrayList<String> genres;
 	/**
 	 * constructor
 	 */
 	public URLGetter() {
 		index = 0;
-		ArrayList<String> genres = new ArrayList<String>(findGenres());
-				
-		for (String genre : genres) {
-			findBookUrls(genre);
-		}
+		genres = new ArrayList<String>(findGenres());
 	}
 	
 	/**
@@ -165,6 +161,14 @@ public class URLGetter {
 	 */
 	public HashMap<String, Integer> getTxtLinks() {
 		return txtLinks;
+	}
+	
+	/**
+	 * accessor method
+	 * @return links to each genre
+	 */
+	public ArrayList<String> getGenres() {
+		return genres;
 	}
 	
 }
