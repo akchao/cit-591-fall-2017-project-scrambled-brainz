@@ -14,7 +14,10 @@ public class BookSplitter {
 
 	private ArrayList<String> bookLines;
 	private String[] bookSegments;
-
+	private boolean hasGoodUrl = false;
+	private boolean hasBookLines = false;
+	private boolean hasBookSegments = false;
+	
 	
 	/**
 	 * Constructs the book splitter, which divides up an online book into sections
@@ -43,10 +46,14 @@ public class BookSplitter {
 			BufferedReader in = new BufferedReader(
 					new InputStreamReader(url.openStream()));
 			while ((inputLine = in.readLine()) != null) {
+				hasGoodUrl = true;
+				
 				Pattern p = Pattern.compile(".+");
 				Matcher m = p.matcher(inputLine);
 				if (m.find()) {								// to obtain only sentences with letters
 					bookLines.add(inputLine.trim());
+					hasBookLines = true;
+
 				} else {
 					continue;
 				} 
@@ -54,10 +61,10 @@ public class BookSplitter {
 			in.close();
 		} catch (MalformedURLException mue) {
 			System.out.println(mue.getMessage());
-		} catch (IOException ioe) {
+		} catch (IOException ioe) {			
 			System.out.println(ioe.getMessage());	
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());;
 		}
 	}
 	/**
@@ -79,6 +86,7 @@ public class BookSplitter {
 					segment = "";
 					count = 0;
 					i++;
+					hasBookSegments = true;
 				} else {
 					segment = segment + bookLines.get(k) + " ";
 					count++;
@@ -88,7 +96,7 @@ public class BookSplitter {
 	}
 
 	/**
-	 * @return the bookLines
+	 * @return the bookLines the book lines stored as an array
 	 */
 	public ArrayList<String> getBookLines() {
 		return bookLines;
@@ -96,9 +104,36 @@ public class BookSplitter {
 
 	
 	/**
-	 * @return the bookSegments
+	 * @return the bookSegments the book segments stored as an array
 	 */
 	public String[] getBookSegments() {
 		return bookSegments;
 	}
+
+
+	/**
+	 * @return the hasBookLines true if BookSplitter read in the book, false otherwise
+	 */
+	public boolean doesHaveBookLines() {
+		return hasBookLines;
+	}
+
+
+	/**
+	 * @return the hasBookSegments true if BookSplitter split the book into segments, false otherwise
+	 */
+	public boolean doesHaveBookSegments() {
+		return hasBookSegments;
+	}
+
+
+	/**
+	 * @return the hasGoodUrl true if URL is correct, false if incomplete or missing
+	 */
+	public boolean doesHaveGoodUrl() {
+		return hasGoodUrl;
+	}
+
+
+	
 }
