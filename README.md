@@ -1,5 +1,5 @@
-# cit-591-fall-2017-project-scrambled-brainz
-cit-591-fall-2017-project-scrambled-brainz created by GitHub Classroom
+# Shapes of Stories
+created by GitHub Classroom
  
 
 Shapes of Stories
