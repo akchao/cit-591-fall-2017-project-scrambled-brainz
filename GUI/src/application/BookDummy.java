@@ -5,6 +5,11 @@ import java.util.Random;
 
 import javax.print.attribute.HashAttributeSet;
 
+/**
+ * Dummy class for preliminary testing of GUI
+ * @author drawj
+ *
+ */
 public class BookDummy {
 	private String title;
 	private String author;
@@ -18,7 +23,12 @@ public class BookDummy {
 	
 	private ArrayList<HashMap<String, Double>> emotions = new ArrayList<HashMap<String, Double>>();
 	
-	
+	/**
+	 * dummy constructor
+	 * @param title
+	 * @param author
+	 * @param year
+	 */
 	public BookDummy(String title, String author, int year) {
 		this.title = title;
 		this.author = author;
@@ -36,6 +46,7 @@ public class BookDummy {
 		
 		Random r = new Random();
 		
+		// randomly generate emotion data
 		for (HashMap<String, Double> e : this.emotions) {
 			for (String emotion : emotions) {
 				e.put(emotion, r.nextDouble());

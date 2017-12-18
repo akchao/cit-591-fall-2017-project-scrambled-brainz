@@ -22,7 +22,8 @@ public class BookEmotionData {
 	 * @param url the book url that should contain only the book text (no tables)
 	 */
 	public BookEmotionData(String url) {
-		
+
+		// initialize ArrayLists
 		anger = new ArrayList<>();
 		disgust = new ArrayList<>();
 		fear = new ArrayList<>();

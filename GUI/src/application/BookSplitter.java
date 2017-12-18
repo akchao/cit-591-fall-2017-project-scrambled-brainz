@@ -19,7 +19,7 @@ public class BookSplitter {
 	/**
 	 * Constructs the book splitter, which divides up a book into sections
 	 * currently, number of sections is 5, but this could be changed
-	 * @param url the book's url
+	 * @param url the book's .txt url
 	 */
 	public BookSplitter(String url) {
 		bookLines = new ArrayList<>();
@@ -39,7 +39,6 @@ public class BookSplitter {
 		URL url;
 		String inputLine;
 		try {
-			
 			url = new URL(link);
 			BufferedReader in = new BufferedReader(
 					new InputStreamReader(url.openStream()));
@@ -53,18 +52,20 @@ public class BookSplitter {
 				}
 			}
 			in.close();
-			
 		} catch (MalformedURLException mue) {
 			System.out.println(mue.getMessage());
-			
 		} catch (IOException ioe) {
 			System.out.println(ioe.getMessage());	
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * method to split the book into segments
+	 * @param numberOfSegments the number of segments into which
+	 * to split the book
+	 */
 	private void segmentBook(int numberOfSegments) {
 		bookSegments = new String[numberOfSegments];
 		int counter = (bookLines.size() / numberOfSegments);
@@ -72,8 +73,8 @@ public class BookSplitter {
 		
 		String segment = "";
 		int i = 0;
-		for (int k=0; k<bookLines.size(); k++) {
-			if (count == (counter-1)) {
+		for (int k = 0; k < bookLines.size(); k++) {
+			if (count == (counter - 1)) {
 				bookSegments[i] = segment;
 				segment = "";
 				count = 0;
@@ -99,10 +100,4 @@ public class BookSplitter {
 	public String[] getBookSegments() {
 		return bookSegments;
 	}
-
-
-
-	
-	
-
 }

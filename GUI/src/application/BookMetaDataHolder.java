@@ -12,13 +12,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * this is a class to represent a single book
+ * this is a class to represent a single book's meta-data
+ * before it has been process for its emotion data 
  *
  * @author Drawjk705
  *
  */
 
-public class BookMetaData {
+public class BookMetaDataHolder {
 
 	private String url;
 	private String author;
@@ -26,12 +27,15 @@ public class BookMetaData {
 	private String pubDate;
 	private String location;
 	
-	
 	// indicator to assess whether book has
 	// Wikipedia data or not
 	private Boolean hasData;
 	
-	public BookMetaData(String url) {
+	/**
+	 * constructor
+	 * @param url the book's .txt URL
+	 */
+	public BookMetaDataHolder (String url) {
 		this.url = url;
 		hasData = false;
 	}
@@ -48,7 +52,7 @@ public class BookMetaData {
 			// exit method if has no data
 			return;
 		}
-		
+		// if the book has data, populate its instance variables
 		if (hasData) {
 			for (String datum : bookData) {
 				String s = datum;
@@ -59,6 +63,7 @@ public class BookMetaData {
 					location = s.replaceAll("Country ", "");
 					location = location.replaceAll(",", "");
 				} else if (s.contains("Publi")) {
+					// extract year from publication date
 					Pattern p = Pattern.compile("([0-9]{4})");
 					Matcher m = p.matcher(s);
 					if (m.find()) {
@@ -75,13 +80,14 @@ public class BookMetaData {
 	/**
 	 * class to extract data from Wikipedia
 	 * on the book in question
-	 * @param url the book's Gutenberg URL
+	 * @param url the book's loyalbooks.com URL
 	 */
 	public ArrayList<String> extractWikipediaData() {
+		// get the URL for the book's Wikipedia page
 		String wikipediaUrl = searchForBookWikipediaPage();
-
+		
+		// ArrayList to store the book's meta-data
 		ArrayList<String> bookData = new ArrayList<String>();
-
 		
 		Document doc = null;
 		try {
@@ -89,10 +95,13 @@ public class BookMetaData {
 			doc = Jsoup.connect(wikipediaUrl).get();
 			
 			// find the book's "infobox"
+			
+			// get all tables from the Wikipedia page
 			Elements tables = doc.select("table");
 			
 			Element infobox = null;
 			
+			// find the table of class "infobox"
 			for (Element table : tables) {
 				if (table.hasClass("infobox")) {
 					infobox = table;
@@ -102,7 +111,8 @@ public class BookMetaData {
 			
 			// go through each row of the infobox 
 			Elements tableTags = null; 
-					
+			
+			// scrape the infobox for meta-data
 			try {
 				tableTags = infobox.select("tr");
 				// add each row's text to array
@@ -111,14 +121,13 @@ public class BookMetaData {
 				}
 				hasData = true;
 			} catch (Exception NullPointerException) {
+				// if no infobox exists, set hasData to false,
+				// and exit the method
 				hasData = false;
 				return null;
 			}
-	
-			
 			// get book's title
-			String title = null; 
-					
+			String title = null; 		
 			try {
 				title = infobox.selectFirst("caption").text();
 				// append label to title
@@ -131,17 +140,12 @@ public class BookMetaData {
 				hasData = false;
 				return null;
 			}
-			
-			
-			
 		} catch (Exception IllegalArgumentException) {
-//			e.printStackTrace();
+			// if cannot access Wikipedia page 
+			IllegalArgumentException.printStackTrace();
 		}
 		return bookData;
 	}
-	
-	// work on exception handling should search engine reject
-	// query
 	
 	/**
 	 * method to find the Wikipedia page for the book
@@ -155,16 +159,19 @@ public class BookMetaData {
 	 * @return Wikipedia URL with data on the book
 	 */
 	public String searchForBookWikipediaPage() {
+		// get the text to use to search Google (or whatever engine)
 		String searchParam = getBookSearchParam();
 		
 		// String to begin searching Google
 		String google = "https://www.google.com/search?q=";
 		
+		// create the appropriate URL to submit
 		String url = encodeUrl(google, searchParam);
 		
 		// get Google search page
 		Document doc = null;
 		try {
+			// connect to Google
 			doc = Jsoup.connect(url).get();
 		} catch (IOException e) {
 			// should Google fail, go to Yahoo
@@ -188,6 +195,7 @@ public class BookMetaData {
 		// the search engine
 		Element wikiPage = doc.getElementsByTag("cite").get(0);
 		
+		// get and return the Wikipedia URL
 		String wikipediaUrl = wikiPage.text();
 
 		return wikipediaUrl;
@@ -255,11 +263,6 @@ public class BookMetaData {
 	public String getUrl() {
 		return url;
 	}
-
-	/**
-	 * 
-	 * @return keywords
-	 */
 
 	/**
 	 * 

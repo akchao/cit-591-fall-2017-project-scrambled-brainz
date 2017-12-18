@@ -38,19 +38,25 @@ public class URLGetter {
 	 * write all links out to a .csv file
 	 */
 	public void writeLinksToCsv() {
+		PrintWriter out = null;
 		try {
-			PrintWriter out = new PrintWriter("Book URLs.csv");
+			out = new PrintWriter("Book URLs.csv");
 			
 			for (String link : txtLinks.keySet()) {
 				out.print(link + "\n");
-			}
-			out.close();			
+			}	
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} finally {
+			out.close();
 		}
 		
 	}
 	
+	/**
+	 * method to get the .txt link for a book, given its loyalbooks.com URL
+	 * @param bookUrl the generic loyalbooks.com URL for the book
+	 */
 	public void getTxt(String bookUrl) {
 		Document doc = null;
 		try {
@@ -59,19 +65,18 @@ public class URLGetter {
 			
 			// get the link to the book's .txt file 
 			Element box = doc.select("td.book2:contains(Text File eBook)").first();
-
-			
-			// skip books that don't have a proper .txt link
+	
+			// exit function for books that don't have a proper .txt link
 			if (box == null) {
 				return;
 			}
 			
 			Element link = box.select("a").first();
 			
+			// store URL in string
 			String url = link.attr("abs:href");
 			
-//			System.out.println(++index + ": " + url);
-			
+			// store URL in HashMap (to avoid repeat URLs)
 			txtLinks.put(url, 1);
 			
 		} catch (IOException e) {
@@ -100,17 +105,18 @@ public class URLGetter {
 			// the link to the book
 			int index = 0;
 			for (Element link : links) {				
+				// use index % 3 because each book has
+				// three copies of its page link
 				if (index % 3 == 0) {
 					Elements l = link.select("a[href]");
 					
 					// store the link in a string
 					String bookUrl = l.attr("abs:href");
-										
+					// the the .txt URL for the given book's page
 					getTxt(bookUrl);
 				}
 				index++;
 			}
-						
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
@@ -147,12 +153,9 @@ public class URLGetter {
 				link = link + append;			
 				genreLinks.add(link);
 			}
-			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		return genreLinks;
 	}
 	

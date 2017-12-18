@@ -125,7 +125,7 @@
                       <CategoryAxis label="Time" side="BOTTOM" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis label="Intensity" side="LEFT" />
+                      <NumberAxis label="Intensity" side="LEFT" fx:id="yAxis" />
                     </yAxis>
                   </LineChart>
                   <HBox prefHeight="10.0" prefWidth="1073.0" spacing="10.0">

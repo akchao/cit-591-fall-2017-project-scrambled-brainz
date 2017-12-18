@@ -3,8 +3,8 @@ package application;
 import java.util.ArrayList;
 
 /**
- * Reads in Book-Data.csv and organizes data
- * @author Alice
+ * Reads in a line from Book-Data.csv and organizes data
+ * @author Drawjk705
  *
  */
 public class BookObj {
@@ -20,61 +20,67 @@ public class BookObj {
 	private ArrayList<Double> sadness;
 	
 	
-	
+	/**
+	 * Constructor class to parse array of Strings from .csv line
+	 * @param array
+	 */
 	public BookObj(String [] array) {
-//		for (String s : array) {
-//			System.out.println(s);
-//		}
 		
-		title = array[0];
-		author = array[1];
 		try {
-			pubDate = Integer.parseInt(array[2]);
-		} catch (Exception e) {
-			pubDate = 0;
-		}
-		location = array[3];
-		URL = array[4];
-		anger = new ArrayList<Double>();
-		disgust = new ArrayList<Double>();
-		fear = new ArrayList<Double>();
-		joy = new ArrayList<Double>();
-		sadness = new ArrayList<Double>();
-		
-		for (int i = 5; i < 10; i++) {
+			title = array[0];
+			author = array[1];
 			try {
-				anger.add(Double.parseDouble(array[i]));
+				pubDate = Integer.parseInt(array[2]);
 			} catch (Exception e) {
-				anger.add(0.0);
+				pubDate = 0;
 			}
-		}
-		for (int i = 10; i < 15; i++) {
-			try {
-				disgust.add(Double.parseDouble(array[i]));
-			} catch (Exception e) {
-				disgust.add(0.0);
+			location = array[3];
+			URL = array[4];
+			anger = new ArrayList<Double>();
+			disgust = new ArrayList<Double>();
+			fear = new ArrayList<Double>();
+			joy = new ArrayList<Double>();
+			sadness = new ArrayList<Double>();
+			
+			for (int i = 5; i < 10; i++) {
+				try {
+					anger.add(Double.parseDouble(array[i]));
+				} catch (NumberFormatException nfe) {
+					anger.add(0.0);
+				}
 			}
-		}
-		for (int i = 15; i < 20; i++) {
-			try {
-				fear.add(Double.parseDouble(array[i]));
-			} catch (Exception e) {
-				fear.add(0.0);
+			for (int i = 10; i < 15; i++) {
+				try {
+					disgust.add(Double.parseDouble(array[i]));
+				} catch (NumberFormatException nfe) {
+					disgust.add(0.0);
+				}
 			}
-		}
-		for (int i = 20; i < 25; i++) {
-			try {
-				joy.add(Double.parseDouble(array[i]));
-			} catch (Exception e) {
-				joy.add(0.0);
+			for (int i = 15; i < 20; i++) {
+				try {
+					fear.add(Double.parseDouble(array[i]));
+				} catch (NumberFormatException nfe) {
+					fear.add(0.0);
+				}
 			}
-		}
-		for (int i = 25; i < 30; i++) {
-			try {
-				sadness.add(Double.parseDouble(array[i]));
-			} catch (Exception e) {
-				sadness.add(0.0);
+			for (int i = 20; i < 25; i++) {
+				try {
+					joy.add(Double.parseDouble(array[i]));
+				} catch (NumberFormatException nfe) {
+					joy.add(0.0);
+				}
 			}
+			for (int i = 25; i < 30; i++) {
+				try {
+					sadness.add(Double.parseDouble(array[i]));
+				} catch (NumberFormatException nfe) {
+					sadness.add(0.0);
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException aioobe) {
+			System.out.println("Check Book-Data.csv file for missing values\n");
+			aioobe.printStackTrace();
+			throw aioobe;
 		}
 	}
 

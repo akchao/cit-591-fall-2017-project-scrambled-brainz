@@ -24,17 +24,16 @@ public class BookDataPrinter {
 	 * method to print books to .csv file
 	 */
 	public void printBooks() {
-		BookMetaDataReader br = new BookMetaDataReader();
+		BookMetaDataGetter bmdg = new BookMetaDataGetter();
 
-		// store books in ArrayList
-		ArrayList<BookMetaData> books = new ArrayList<BookMetaData>(br.getBooks());
+		// store books (at this point, only with URLs) in ArrayList
+		ArrayList<BookMetaDataHolder> books = new ArrayList<BookMetaDataHolder>(bmdg.getBooks());
 
 		PrintWriter out = null;
 
 		try {
-			out = new PrintWriter("Book-Data4.csv");
-
-
+			out = new PrintWriter("Book-Data.csv");
+			
 			// write header
 			out.println("Title,Author,Publication Date,Location,URL,"
 					+ "Anger[0],Anger[1],Anger[2],Anger[3],Anger[4],"
@@ -44,10 +43,11 @@ public class BookDataPrinter {
 					+ "Sadness[0],Sadness[1],Sadness[2],Sadness[3],Sadness[4]");
 
 			// write each line
-			for (BookMetaData book : books) {
+			for (BookMetaDataHolder book : books) {
+				// print index to keep track
 				System.out.println(++index);
 
-				//title,author,pubdate, URL
+				// get data for the given book
 				book.storeData();
 
 				if (book.hasData()) {
@@ -57,31 +57,30 @@ public class BookDataPrinter {
 					out.print(book.getLocation() + ",");
 					out.print(book.getUrl() + ",");
 
-					//emotion data
+					// print book emotion data
 					BookEmotionData emotionData = new BookEmotionData(book.getUrl());
 
-					for (int i=0; i<5; i++) {
+					for (int i = 0; i < 5; i++) {
 						out.print(emotionData.getAnger().get(i) + ",");
 					}
-
-					for (int i=0; i<5; i++) {
+					for (int i = 0; i < 5; i++) {
 						out.print(emotionData.getDisgust().get(i) + ",");
 					}
-
-					for (int i=0; i<5; i++) {
+					for (int i = 0; i < 5; i++) {
 						out.print(emotionData.getFear().get(i) + ",");
 					}
-
-					for (int i=0; i<5; i++) {
+					for (int i = 0; i < 5; i++) {
 						out.print(emotionData.getJoy().get(i) + ",");
 					}
-
 					for (int i=0; i<5; i++) {
 						out.print(emotionData.getSadness().get(i) + ",");
 					}
 					
+					// print newline character
 					out.println();
+					// flush buffer to allow line to print
 					out.flush();
+					// display how many books have been printed
 					System.out.println("\t" + ++bookCount);
 				}
 			}

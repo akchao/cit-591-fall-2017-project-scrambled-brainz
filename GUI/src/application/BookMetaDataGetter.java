@@ -11,31 +11,33 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * class to get all of the book data
+ * class to get all of the book meta-data
  * will read a .csv file with links to books
- * on Project Gutenberg
+ * on loyalbooks.com
+ * 
  * @author Drawjk705
  *
  */
-public class BookMetaDataReader {
+public class BookMetaDataGetter {
 
 	private ArrayList<String> urls = new ArrayList<String>();
-	ArrayList<BookMetaData> books = new ArrayList<BookMetaData>();	
+	ArrayList<BookMetaDataHolder> books = new ArrayList<BookMetaDataHolder>();	
 	private String json;
 	private static int index;
 	private static int booksWithData;
 	
-//	private String url;
-	
-	
-	public BookMetaDataReader() {
+	/**
+	 * constructor class
+	 * will automatically populate an ArrayList of BookMetaData objects
+	 */
+	public BookMetaDataGetter() {
 		index = 0;
 		booksWithData = 0;
-		String file = "BookURLs4.csv";
+		String file = "BookURLs.csv";
 		readBookUrls(file);
 
 		for (String url : urls) {
-			BookMetaData book = new BookMetaData(url);
+			BookMetaDataHolder book = new BookMetaDataHolder(url);
 			books.add(book);
 		}
 	}
@@ -66,11 +68,19 @@ public class BookMetaDataReader {
 		}
 	}
 
+	/**
+	 * getter method
+	 * @return get all book URLs
+	 */
 	public ArrayList<String> getUrls() {
 		return urls;
 	}
 	
-	public ArrayList<BookMetaData> getBooks() {
+	/**
+	 * getter method
+	 * @return all BookMetaData objects
+	 */
+	public ArrayList<BookMetaDataHolder> getBooks() {
 		return books;
 	}
 	

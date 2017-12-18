@@ -1,5 +1,6 @@
 package application;
 
+import java.awt.print.Book;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -84,10 +86,13 @@ public class NLPController implements Initializable {
     private Button compareWith;
     @FXML
     private Button updateGraph;
-    @FXML
     
     // the line chart
+    @FXML
     private LineChart<String, Double> lineChart;
+    // the yAxis
+    @FXML
+    private NumberAxis yAxis ;
 
     // checkboxes    
     @FXML
@@ -100,12 +105,19 @@ public class NLPController implements Initializable {
     private CheckBox disgustCheck;
     @FXML
     private CheckBox angerCheck;
+
     
     /**
      * method to set up initial features
      */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set y-axis range by default
+		yAxis.setAutoRanging(false);
+		yAxis.setLowerBound(0);
+		yAxis.setUpperBound(1);
+		yAxis.setTickUnit(0.1);
+		
 		// set to false
 		booksCompared = false;
 		
@@ -116,14 +128,17 @@ public class NLPController implements Initializable {
 		
 		// get all books
 		BookObjDataReader bodr = new BookObjDataReader();
-		
+		// store books in ArrayList
 		ArrayList<BookObj> books = new ArrayList<BookObj>(bodr.getBooks());
-
+		
+		// map between book title to book object
 		for (BookObj book: books) {
 			titleToBook.put(book.getTitle(), book);
 		}
-		TreeMap<String, BookObj> sortedTitles = new TreeMap<>(titleToBook);
-				
+		// sort titles
+		TreeMap<String, BookObj> sortedTitles = new TreeMap<String, BookObj>(titleToBook);
+
+		// create mapping of authors to their ouvres
 		HashMap<String, ArrayList<String>> authorList = new HashMap<String, ArrayList<String>>();
 		
 		// create new HashMap of authors to list of their ouvre if
@@ -135,14 +150,18 @@ public class NLPController implements Initializable {
 				ArrayList<String> authorOuvre = new ArrayList<String>();
 				authorOuvre.add(book.getTitle());
 				authorList.put(book.getAuthor(), authorOuvre);
+				// sort ouvre
 				Collections.sort(authorOuvre);
 			} else {
 				authorList.get(book.getAuthor()).add(book.getTitle());
+				// sort ouvre for the given author
 				Collections.sort(authorList.get(book.getAuthor()));
 			}
 		}
+		// sort author names
 		TreeMap<String, ArrayList<String>> sortedAuthors = new TreeMap<>(authorList);
 
+		// create dummy root (which will be hidden) for tree view
 		TreeItem<String> dummyAuthorRoot = new TreeItem<String>("dummy");
 		
 		// iterate through each author in the list of authors
@@ -168,7 +187,7 @@ public class NLPController implements Initializable {
 		compareAuthorTree.setRoot(dummyAuthorRoot);
 		compareAuthorTree.setShowRoot(false);
 
-		
+		// map between year to books
 		HashMap<Integer, ArrayList<String>> yearList = new HashMap<Integer, ArrayList<String>>();
 		
 		// create new HashMap of years to list of their ouvre if
@@ -180,18 +199,18 @@ public class NLPController implements Initializable {
 				ArrayList<String> yearOuvre = new ArrayList<String>();
 				yearOuvre.add(book.getTitle());
 				yearList.put(book.getPubDate(), yearOuvre);
+				// sort year ouvre
 				Collections.sort(yearOuvre);
 			} else {
 				yearList.get(book.getPubDate()).add(book.getTitle());
+				// sort ouvre for a given year
 				Collections.sort(yearList.get(book.getPubDate()));
 			}
 		}
 		// convert to TreeMap to order keys
 		TreeMap<Integer, ArrayList<String>> sortedYears = new TreeMap<>(yearList);
-//		for (Integer i : sortedYears.keySet()) { 
-//			System.out.println(i);
-//		}
 
+		// create a dummy root for the year
 		TreeItem<String> dummyYearRoot = new TreeItem<String>("dummy");
 		
 		// iterate through each year in the list of years
@@ -275,8 +294,6 @@ public class NLPController implements Initializable {
     		XYChart.Series<String, Double> sadness = new XYChart.Series<>();
     		XYChart.Series<String, Double> disgust = new XYChart.Series<>();
     		XYChart.Series<String, Double> joy = new XYChart.Series<>();
-
-    		// plot series data
     		
     		//anger
     		for (int i = 0; i < 5; i ++) {
