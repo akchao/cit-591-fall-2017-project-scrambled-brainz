@@ -1,4 +1,4 @@
-package application;
+package preliminary_work;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package application;
+package preliminary_work;
 
 /**
  * Template for Secret.java class that must be created to run Watson API

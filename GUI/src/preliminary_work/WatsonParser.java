@@ -1,4 +1,4 @@
-package application;
+package preliminary_work;
 import java.util.List;
 
 import com.google.gson.JsonObject;

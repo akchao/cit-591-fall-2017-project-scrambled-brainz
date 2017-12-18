@@ -1,4 +1,4 @@
-package application;
+package preliminary_work;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
