@@ -79,8 +79,8 @@ public class BookObj {
 			}
 		} catch (ArrayIndexOutOfBoundsException aioobe) {
 			System.out.println("Check Book-Data.csv file for missing values\n");
-			aioobe.printStackTrace();
-			throw aioobe;
+//			aioobe.printStackTrace();
+//			throw aioobe;
 		}
 	}
 
