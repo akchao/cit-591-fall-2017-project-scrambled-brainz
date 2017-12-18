@@ -368,7 +368,7 @@ public class NLPController implements Initializable {
     		XYChart.Series<String, Double> disgust = new XYChart.Series<>();
     		XYChart.Series<String, Double> joy = new XYChart.Series<>();
 
-    		// plot series
+    		// plot comparison series
     		//anger
     		for (int i = 0; i < 5; i ++) {
     			anger.getData().add(new XYChart.Data<String, Double>(Integer.toString(i + 1), book.getAnger().get(i)));
