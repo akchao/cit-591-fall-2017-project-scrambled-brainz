@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import preliminary_work.BookSplitter;
+
 public class BookSplitterTest {
 
 	String goodUrl; 
@@ -28,7 +30,7 @@ public class BookSplitterTest {
 //				"publish a very loose and uncorrect account of my travels, with directions\n" + 
 //				"to hire some young gentleman of either university to put them in order,\n" + 
 //				"and correct the style, as my cousin Dampier did, by my advice, in his\n" + 
-//				"book called “A Voyage round the world.” ";
+//				"book called â€œA Voyage round the world.â€� ";
 //		
 //		sampleTooShortText = "I hope you will be ready to own publicly, whenever you shall be called to\n" + 
 //				"it, that by your great and frequent urgency you prevailed on me to\n" + 

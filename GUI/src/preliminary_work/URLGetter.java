@@ -129,7 +129,7 @@ public class URLGetter {
 	public ArrayList<String> findGenres() {
 		String url = "http://www.loyalbooks.com/genre-menu";
 		
-		// string to append t end of genre url
+		// string to append to end of genre url
 		String append = "?type=ebook&results=100";
 		
 		// keep track of genre links

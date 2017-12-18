@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 
+import preliminary_work.BookMetaDataHolder;
+
 public class BookMetaDataHolderTest {
 
 	/**

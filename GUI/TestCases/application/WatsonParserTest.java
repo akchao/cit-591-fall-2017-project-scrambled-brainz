@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import com.google.gson.JsonParseException;
 
+import preliminary_work.WatsonParser;
+
 /**
  * Test methods for WatsonParser 
  * @author Alice
