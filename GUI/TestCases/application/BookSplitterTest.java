@@ -10,52 +10,67 @@ import preliminary_work.BookSplitter;
 public class BookSplitterTest {
 
 	String goodUrl; 
-	String badUrl;
+	String incompleteUrl;
 	String noUrl;
 	String notAUrl;
 	String notABookUrl;
-	String sampleGoodText;
-	String sampleTooShortText;
+
 	
 	
 	@Before
 	public void setupBookSplitterTest() {
 		goodUrl = "http://www.loyalbooks.com/download/text/Gullivers-Travels-by-Jonathan-Swift.txt";
-		badUrl = "http://www.loyalbooks.com/download/text/Gullivers-Travels-by-Jonathan-Swift";
-		noUrl = "";  // same as NULL?
+		incompleteUrl = "http://www.loyalbooks.com/download/text/Gullivers-Travels-by-Jonathan-Swift";
+		noUrl = "";  
 		notAUrl = "Gullivers.txt";
-		notABookUrl = "";
-//		sampleGoodText = "I hope you will be ready to own publicly, whenever you shall be called to\n" + 
-//				"it, that by your great and frequent urgency you prevailed on me to\n" + 
-//				"publish a very loose and uncorrect account of my travels, with directions\n" + 
-//				"to hire some young gentleman of either university to put them in order,\n" + 
-//				"and correct the style, as my cousin Dampier did, by my advice, in his\n" + 
-//				"book called â€œA Voyage round the world.â€� ";
-//		
-//		sampleTooShortText = "I hope you will be ready to own publicly, whenever you shall be called to\n" + 
-//				"it, that by your great and frequent urgency you prevailed on me to\n" + 
-//				"publish a very loose and uncorrect account of my travels.";
+		notABookUrl = "http://www.nytimes.com";
 		
 	}
 	
 	
 	@Test
-	public void testGoodUrl() {
+	public void testGoodUrlHasBookLines() {
+		
 		BookSplitter bs = new BookSplitter(goodUrl);
-		String[] segments = bs.getBookSegments();
-//		System.out.println(!segments[0].equals(""));
-		String checkContent = segments[0];		
-		boolean checkIfContent = !checkContent.equals("");
+		assertTrue("BookSplitter failed to read in the book", bs.doesHaveBookLines());
 		
-//		assertTrue(checkIfContent);
-		assertEquals(true,checkIfContent);
-		fail("BookSplitter failed to split the book");
 	}
-
+ 
 	
 	@Test
-	public void testSplitText() {
+	public void testGoodUrlHasBookSegments() {
 		
+		BookSplitter bs = new BookSplitter(goodUrl);
+		assertTrue("BookSplitter failed to split the book into segments", bs.doesHaveBookSegments());
+		
+	}
+ 
+
+	@Test
+	public void testIncompleteUrl() {
+		BookSplitter bs = new BookSplitter(incompleteUrl);
+		assertFalse("BookSplitter took in an incomplete URL", bs.doesHaveGoodUrl());
+	}
+	
+	
+	@Test
+	public void testNoUrl() {
+		BookSplitter bs = new BookSplitter(noUrl);
+		assertFalse(bs.doesHaveGoodUrl());
+	}
+	
+	
+	@Test
+	public void testNotABookUrl() {
+		BookSplitter bs = new BookSplitter(notABookUrl);
+		assertFalse(bs.doesHaveGoodUrl());
+	}
+	
+	
+	@Test
+	public void testNotAUrl() {
+		BookSplitter bs = new BookSplitter(noUrl);
+		assertFalse(bs.doesHaveGoodUrl());
 	}
 	
 }
