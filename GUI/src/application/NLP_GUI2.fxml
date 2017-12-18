@@ -69,7 +69,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label text="Compared With: " />
-                        <Text fx:id="comparedBook" strokeType="OUTSIDE" strokeWidth="0.0" text="No Book Selected" wrappingWidth="124.4296875" />
+                        <Text fx:id="comparedBook" strokeType="OUTSIDE" strokeWidth="0.0" text="No Book Selected" wrappingWidth="80" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" top="10.0" />
@@ -120,7 +120,7 @@
             </VBox>
             <VBox prefHeight="719.0" prefWidth="779.0">
                <children>
-                  <LineChart fx:id="lineChart" prefHeight="494.0" prefWidth="753.0" title="Emotions Throughout the Novel">
+                  <LineChart fx:id="lineChart" prefHeight="600.0" prefWidth="753.0" title="Shapes of Stories">
                     <xAxis>
                       <CategoryAxis label="Time" side="BOTTOM" />
                     </xAxis>
@@ -148,7 +148,7 @@
                               <Region prefHeight="52.0" prefWidth="354.0" />
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sentiments to Display" wrappingWidth="114.931640625" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sentiments to Display" wrappingWidth="150" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" />
                                     <Region prefHeight="200.0" prefWidth="200.0" />
                                     <Button fx:id="updateGraph" mnemonicParsing="false" onAction="#generateGraph" text="Update Graph">
