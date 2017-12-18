@@ -69,7 +69,7 @@ public class BookSplitterTest {
 	
 	@Test
 	public void testNotAUrl() {
-		BookSplitter bs = new BookSplitter(noUrl);
+		BookSplitter bs = new BookSplitter(notAUrl);
 		assertFalse(bs.doesHaveGoodUrl());
 	}
 	

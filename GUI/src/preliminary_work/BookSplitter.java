@@ -38,7 +38,7 @@ public class BookSplitter {
 	/**
 	 * Method reads in a URL and stores the book lines into an arraylist
 	 */
-	public void getBookFromUrl(String link) {
+	private void getBookFromUrl(String link) {
 		URL url;
 		String inputLine;
 		try {
@@ -72,9 +72,9 @@ public class BookSplitter {
 	 * @param numberOfSegments the number of segments into which
 	 * to split the book
 	 */		
-	public void segmentBook(int numberOfSegments) {
+	private void segmentBook(int numberOfSegments) {
 		bookSegments = new String[numberOfSegments];
-		if (bookLines.size() > numberOfSegments) {
+		if (hasBookLines && bookLines.size() > numberOfSegments) {
 			int counter = (bookLines.size() / numberOfSegments);
 			int count = 0;
 
