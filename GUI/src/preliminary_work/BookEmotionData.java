@@ -15,6 +15,7 @@ public class BookEmotionData {
 	private ArrayList<Double> fear;
 	private ArrayList<Double> joy;
 	private ArrayList<Double> sadness;
+	private boolean hasEmotionData = false;
 	
 	/**
 	 * Constructs a BookEmotionData object that will 
@@ -42,29 +43,41 @@ public class BookEmotionData {
 	private void generateEmotionDataForBook(String url) {
 		
 		BookSplitter split = new BookSplitter(url);
-		String[] bookSegments = split.getBookSegments();
-		
-		
-		for (String s : bookSegments) {
-			// Watson API analyze for emotion in one book segment
-			WatsonAnalyzer wa = new WatsonAnalyzer(s);
-			String emotion = wa.getWatsonDocEmotion();
+		if (split.doesHaveBookLines()) {
+			String[] bookSegments = split.getBookSegments();
 
-			// parse Watson JSON response
-			WatsonParser wp = new WatsonParser();
-			wp.parseDocEmotion(emotion);			
+
+			for (String s : bookSegments) {
+				// Watson API analyze for emotion in one book segment
+				WatsonAnalyzer wa = new WatsonAnalyzer(s);
+				String emotion = wa.getWatsonDocEmotion();
+
+				// parse Watson JSON response
+				WatsonParser wp = new WatsonParser();
+				wp.parseDocEmotion(emotion);			
+
+				// store specific emotion scores in arraylist
+				anger.add(wp.getAngerScore());
+				disgust.add(wp.getDisgustScore());
+				fear.add(wp.getFearScore());
+				joy.add(wp.getJoyScore());
+				sadness.add(wp.getSadnessScore());
+				
+			}
 			
-			// store specific emotion scores in arraylist
-			anger.add(wp.getAngerScore());
-			disgust.add(wp.getDisgustScore());
-			fear.add(wp.getFearScore());
-			joy.add(wp.getJoyScore());
-			sadness.add(wp.getSadnessScore());
-
+			hasEmotionData = true;
+			
+		} else {
+			anger.add(0.0);
+			disgust.add(0.0);
+			fear.add(0.0);
+			joy.add(0.0);
+			sadness.add(0.0);
 		}
-		
 	}
 
+	
+	
 	/**
 	 * @return the anger scores for each book segment as ArrayList
 	 */
@@ -100,6 +113,16 @@ public class BookEmotionData {
 		return sadness;
 	}
 
+
+	/**
+	 * @return the hasEmotionData true if BookEmotionData successfully 
+	 * acquired all emotion data for book segments, false otherwise
+	 */
+	public boolean doesHaveEmotionData() {
+		return hasEmotionData;
+	}
+
+	
 	
 
 	
