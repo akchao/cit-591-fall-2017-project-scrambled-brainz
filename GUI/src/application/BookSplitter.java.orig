@@ -60,11 +60,32 @@ public class BookSplitter {
 			e.printStackTrace();
 		}
 	}
+
+<<<<<<< HEAD
 	/**
 	 * method to split the book into segments
 	 * @param numberOfSegments the number of segments into which
 	 * to split the book
-	 */		
+	 */
+	private void segmentBook(int numberOfSegments) {
+		bookSegments = new String[numberOfSegments];
+		int counter = (bookLines.size() / numberOfSegments);
+		int count = 0;
+		
+		String segment = "";
+		int i = 0;
+		for (int k = 0; k < bookLines.size(); k++) {
+			if (count == (counter - 1)) {
+				bookSegments[i] = segment;
+				segment = "";
+				count = 0;
+				i++;
+			} else {
+				segment = segment + bookLines.get(k) + " ";
+				count++;
+			}
+		}			
+=======
 	public void segmentBook(int numberOfSegments) {
 		bookSegments = new String[numberOfSegments];
 		if (bookLines.size() > numberOfSegments) {
@@ -85,6 +106,7 @@ public class BookSplitter {
 				}
 			}		
 		} 
+>>>>>>> 2d056dc9d174700aab53e492964bb266316ea09e
 	}
 
 	/**
