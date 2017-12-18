@@ -19,6 +19,10 @@ Using IBM Watson's Natural Language Understanding API, which can assess a piece 
 
 REQUIREMENTS:
 ShapesOfStories.jar 		(an executable .jar file) 
+Book-Data.csv			(a .csv will the book data)
+
+*both of these files must be in the same directory*
+
 HOW TO USE:
 
 1. Run "ShapesOfStories.jar" program, an executable jar file, which should open this window:
